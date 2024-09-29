@@ -29,12 +29,16 @@ $string['actions'] = 'Actions';
 $string['add_campus'] = 'Adding Campus';
 $string['add_department'] = 'Adding Department';
 $string['add_unit'] = 'Adding Unit/Faculty';
+$string['campus'] = 'Campus';
 $string['campuses'] = 'Campuses';
 $string['cancel'] = 'Cancel';
 $string['could_not_delete_campus'] = 'The campus record could not be deleted. This could be because one or more units '
     . 'are associated with this campus or an error has occurred.';
+$string['could_not_delete_unit'] = 'The unit record could not be deleted. This could be because one or more departments '
+    . 'are associated with this unit or an error has occurred.';
 $string['delete'] = 'Delete';
 $string['delete_campus'] = 'Are you sure you want to delete the campus? This action cannot be undone.';
+$string['delete_unit'] = 'Are you sure you want to delete the unit? This action cannot be undone.';
 $string['edit'] = 'Edit';
 $string['edit_campus'] = 'Edit Campus';
 $string['edit_department'] = 'Edit Department';
@@ -44,5 +48,8 @@ $string['filters'] = 'Filters';
 $string['id_number'] = 'ID Number';
 $string['name'] = 'Name';
 $string['new'] = 'New';
+$string['select_campus'] = 'Select Campus';
 $string['short_name'] = 'Abbreviation';
 $string['pluginname'] = 'Organization';
+$string['reset'] = 'Reset';
+$string['units'] = 'Units/Faculties';

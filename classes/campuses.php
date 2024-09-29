@@ -24,7 +24,7 @@ class campuses
     public function __construct()
     {
         global $DB;
-        $this->results = $DB->get_records('local_organization_campus');
+        $this->results = $DB->get_records('local_organization_campus', null, 'name');
     }
 
     /**
@@ -42,9 +42,6 @@ class campuses
      */
     public function get_select_array()
     {
-        $array = [
-            '' => get_string('select', 'local_organization')
-        ];
         foreach ($this->results as $r) {
             $array[$r->id] = $r->name;
         }

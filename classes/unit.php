@@ -248,4 +248,17 @@ class unit extends crud
         $this->timemodified = $timemodified;
     }
 
+    /**
+     * Delete unit if no departments are using it
+     */
+    public function delete_record()
+    {
+        global $DB;
+        // Check to see if any departments are using this unit
+        if ($departments = $DB->get_records('local_organization_dept', array('unit_id' => $this->id))) {
+            return false;
+        }
+        return parent::delete_record();
+    }
+
 }

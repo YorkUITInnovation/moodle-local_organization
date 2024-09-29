@@ -46,4 +46,3 @@ $string['name'] = 'Name';
 $string['new'] = 'New';
 $string['short_name'] = 'Abbreviation';
 $string['pluginname'] = 'Organization';
-$string['reset'] = 'Reset';

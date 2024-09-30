@@ -1,11 +1,11 @@
 <?php
 require_once('../../config.php');
-include_once('classes/tables/unit_table.php');
-include_once('classes/forms/unit_filter_form.php');
+include_once('classes/tables/department_table.php');
+include_once('classes/forms/department_filter_form.php');
 
 use local_organization\base;
-use local_organization\unit_table;
-use local_organization\unit_filter_form;
+use local_organization\department_table;
+use local_organization\department_filter_form;
 
 global $CFG, $OUTPUT, $PAGE, $DB;
 
@@ -15,22 +15,22 @@ require_login(1, false);
 $context = context_system::instance();
 
 // Load AMD module
-$PAGE->requires->js_call_amd('local_organization/units', 'init');
+$PAGE->requires->js_call_amd('local_organization/departments', 'init');
 // Load CSS file
 $PAGE->requires->css('/local/organization/css/general.css');
 
+$unit_id = required_param('unit_id', PARAM_INT);
 $term = optional_param('q', '', PARAM_TEXT);
-$campus_id = optional_param('campus_id', 0, PARAM_INT);
 
 $formdata = new stdClass();
 $formdata->name = $term;
-$formdata->campus_id = $campus_id;
+$formdata->unit_id = $unit_id;
 
-$mform = new unit_filter_form(null, array('formdata' => $formdata));
+$mform = new department_filter_form(null, array('formdata' => $formdata));
 
 if ($mform->is_cancelled()) {
     // Handle form cancel operation, if cancel button is present
-    redirect($CFG->wwwroot . '/local/organization/units.php');
+    redirect($CFG->wwwroot . '/local/organization/departments.php');
 } else if ($data = $mform->get_data()) {
     // Process validated data
     $term_filter = $data->q;
@@ -39,24 +39,24 @@ if ($mform->is_cancelled()) {
 //    $mform->display();
 }
 
-$table = new unit_table('local_organization_units_table');
+$table = new department_table('local_organization_departments_table');
 $params = array();
 // Define the SQL query to fetch data
-$sql = "campus_id = $campus_id";
+$sql = "unit_id = $unit_id";
 if (!empty($term_filter)) {
     $sql .= " AND (name LIKE '%$term_filter%') OR (shortname LIKE '%$term_filter%')";
 }
 
 // Define the SQL query to fetch data
-$table->set_sql('*', '{local_organization_unit}', $sql);
+$table->set_sql('*', '{local_organization_dept}', $sql);
 
 // Define the base URL for the table
-$table->define_baseurl(new moodle_url('/local/organization/units.php?campus_id=' . $campus_id));
+$table->define_baseurl(new moodle_url('/local/organization/departments.php'));
 
 base::page(
-    new moodle_url('/local/organization/units.php?campus_id=' . $campus_id),
-    get_string('units', 'local_organization'),
-    get_string('units', 'local_organization')
+    new moodle_url('/local/organization/departments.php'),
+    get_string('departments', 'local_organization'),
+    get_string('departments', 'local_organization')
 );
 
 echo $OUTPUT->header();

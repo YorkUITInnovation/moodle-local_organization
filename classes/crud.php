@@ -45,7 +45,11 @@ abstract class crud
     public function delete_record()
     {
         global $DB;
-        $DB->delete_records($this->table, ['id' => $this->id]);
+        if ($DB->delete_records($this->table, ['id' => $this->id])) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

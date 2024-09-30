@@ -5,7 +5,7 @@ use moodleform;
 
 require_once("$CFG->libdir/formslib.php");
 
-class unit_filter_form extends moodleform
+class department_filter_form extends moodleform
 {
     public function definition()
     {
@@ -32,15 +32,15 @@ class unit_filter_form extends moodleform
             ),
             $mform->createElement(
                 'button',
-                'addunit',
+                'adddepartment',
                 get_string('new', 'local_organization'),
-                array('onclick' => 'window.location.href = \'edit_unit.php?campus_id=' . $formdata->campus_id . '\';')
+                array('onclick' => 'window.location.href = \'edit_department.php?unit_id=' . $formdata->unit_id .  '\';')
             ),
             $mform->createElement(
                 'button',
-                'campus',
-                get_string('campuses', 'local_organization'),
-                array('onclick' => 'window.location.href = \'campuses.php\';')
+                'unitsretunr',
+                get_string('units', 'local_organization'),
+                array('onclick' => 'window.location.href = \'units.php?id=' . $formdata->unit_id .  '\';')
             )
         ), 'filtergroup', '', array(' '), false);
         $mform->setType('q', PARAM_NOTAGS);

@@ -37,10 +37,13 @@ class campus_table extends \table_sql
      */
     public function col_actions($values)
     {
-        global $OUTPUT;
+        global $OUTPUT, $DB;
+        // Get number of units in the campus
+        $unit_count = $DB->count_records('local_organization_unit', array('campus_id' => $values->id));
         $actions = [
             'edit_url' => new \moodle_url('/local/organization/edit_campus.php', array('id' => $values->id)),
-            'id' => $values->id
+            'id' => $values->id,
+            'unit_count' => $unit_count
         ];
 
         return $OUTPUT->render_from_template('local_organization/campus_table_action_buttons', $actions);

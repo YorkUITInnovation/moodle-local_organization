@@ -41,9 +41,6 @@ class units
      */
     public function get_select_array()
     {
-        $array = [
-            '' => get_string('select', 'local_organization')
-        ];
         foreach ($this->results as $r) {
             $array[$r->id] = $r->name;
         }

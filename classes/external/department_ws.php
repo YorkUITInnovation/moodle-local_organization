@@ -3,9 +3,9 @@
 require_once($CFG->libdir . "/externallib.php");
 require_once("$CFG->dirroot/config.php");
 
-use local_organization\unit;
+use local_organization\department;
 
-class local_organization_unit_ws extends external_api
+class local_organization_department_ws extends external_api
 {
     /**
      * Returns description of method parameters
@@ -15,7 +15,7 @@ class local_organization_unit_ws extends external_api
     {
         return new external_function_parameters(
             array(
-                'id' => new external_value(PARAM_INT, 'Unit ID', false, 0)
+                'id' => new external_value(PARAM_INT, 'Department ID', false, 0)
             )
         );
     }
@@ -41,10 +41,10 @@ class local_organization_unit_ws extends external_api
         //OPTIONAL but in most web service it should present
         $context = \context_system::instance();
         self::validate_context($context);
-        $UNIT = new unit($id);
-        $deleted = $UNIT->delete_record();
+        $DEPARTMENT = new department($id);
+        $deleted = $DEPARTMENT->delete_record();
 
-        return true;
+        return $deleted;
     }
 
     /**

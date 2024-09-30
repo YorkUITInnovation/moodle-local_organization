@@ -5,7 +5,7 @@ namespace local_organization;
 require_once('../../config.php');
 require_once($CFG->libdir . '/tablelib.php');
 
-class unit_table extends \table_sql
+class department_table extends \table_sql
 {
     /**
      * campus_table constructor.
@@ -37,16 +37,12 @@ class unit_table extends \table_sql
      */
     public function col_actions($values)
     {
-        global $OUTPUT, $DB;
-
-        // Get number of departments in the unit
-        $department_count = $DB->count_records('local_organization_dept', array('unit_id' => $values->id));
+        global $OUTPUT, $CFG;
         $actions = [
-            'edit_url' => new \moodle_url('/local/organization/edit_unit.php', array('id' => $values->id)),
-            'id' => $values->id,
-            'department_count' => $department_count
+            'edit_url' => $CFG->wwwroot . '/local/organization/edit_department.php?id=' . $values->id . '&unit_id=' . $values->unit_id,
+            'id' => $values->id
         ];
 
-        return $OUTPUT->render_from_template('local_organization/unit_table_action_buttons', $actions);
+        return $OUTPUT->render_from_template('local_organization/department_table_action_buttons', $actions);
     }
 }

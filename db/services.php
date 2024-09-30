@@ -19,4 +19,13 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
+    'organization_department_delete' => array(
+        'classname' => 'local_organization_department_ws',
+        'methodname' => 'delete',
+        'classpath' => 'local/organization/classes/external/department_ws.php',
+        'description' => 'Delete department record',
+        'type' => 'write',
+        'capabilities' => '',
+        'ajax' => true
+    ),
 );

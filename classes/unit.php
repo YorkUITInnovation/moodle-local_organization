@@ -80,6 +80,7 @@ class unit extends crud
      */
     private $table;
 
+    private $user_context;
 
     /**
      *
@@ -88,7 +89,7 @@ class unit extends crud
     public function __construct($id = 0)
     {
         global $CFG, $DB, $DB;
-
+        define('CONTEXT_USER','UNIT');
         $this->table = 'local_organization_unit';
 
         parent::set_table($this->table);
@@ -118,6 +119,7 @@ class unit extends crud
         if ($this->timemodified) {
             $this->timemodified_hr = userdate($result->timemodified,get_string('strftimedate'));
         }
+        $this->user_context = CONTEXT_USER;
     }
 
     /**
@@ -183,6 +185,13 @@ class unit extends crud
     {
         return $this->timemodified;
     }
+    /**
+     * @return user_context with UNIT or department
+     */
+    public function get_user_context()
+    {
+        return $this->user_context;
+    }
 
     /**
      * @param Type: bigint (18)
@@ -246,6 +255,11 @@ class unit extends crud
     public function set_timemodified($timemodified)
     {
         $this->timemodified = $timemodified;
+    }
+
+    public function set_user_context($user_context)
+    {
+        $this->user_context = $user_context;
     }
 
     /**

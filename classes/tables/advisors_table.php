@@ -52,10 +52,9 @@ class advisors_table extends \table_sql
         $advisor_count = $DB->count_records('local_organization_advisor', $condition1, $condition2);
         $actions = [
             'edit_url' => new \moodle_url('/local/organization/edit_campus.php', array('id' => $values->id)),
-            'id' => $values->id,
-            'unit_count' => $advisor_count
+            'id' => $values->id
         ];
 
-        return $OUTPUT->render_from_template('local_organization/unit_table_action_buttons', $actions);
+        return $OUTPUT->render_from_template('local_organization/advisors_table_action_buttons', $actions);
     }
 }

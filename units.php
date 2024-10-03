@@ -13,6 +13,8 @@ global $CFG, $OUTPUT, $PAGE, $DB;
 require_login(1, false);
 
 $context = context_system::instance();
+// UNIT CONTEXT for advisor
+const CONTEXT_UNIT = 'UNIT';
 
 // Load AMD module
 $PAGE->requires->js_call_amd('local_organization/units', 'init');

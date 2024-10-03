@@ -62,3 +62,5 @@ $string['units'] = 'Units/Faculties';
 $string['firstname' ] = 'First Name';
 $string['lastname'] = 'Last Name';
 $string['context'] = 'UNIT/DEPARTMENT';
+$string['advisors'] = 'Advisors';
+

@@ -16,13 +16,14 @@ class advisors_table extends \table_sql
         parent::__construct($uniqueid);
 
         // Define the columns to be displayed
-        $columns = array('first_name', 'last_name', 'actions');
+        $columns = array('firstname', 'lastname', 'role', 'context', 'actions');
         $this->define_columns($columns);
 
         // Define the headers for the columns
         $headers = array(
             get_string('firstname', 'local_organization'),
             get_string('lastname', 'local_organization'),
+            get_string('role', 'local_organization'),
             get_string('context', 'local_organization'),
             '',
         );
@@ -49,7 +50,7 @@ class advisors_table extends \table_sql
             'usercontext' => $values->user_context,
         );
 
-        $advisor_count = $DB->count_records('local_organization_advisor', $condition1, $condition2);
+        //$advisor_count = $DB->count_records('local_organization_advisor', $condition1, $condition2);
         $actions = [
             'edit_url' => new \moodle_url('/local/organization/edit_campus.php', array('id' => $values->id)),
             'id' => $values->id

@@ -2,6 +2,8 @@
 require_once('../../config.php');
 include_once('classes/tables/advisors_table.php');
 include_once('classes/forms/advisors_filter_form.php');
+include_once('classes/helper.php');
+
 
 use local_organization\advisors_filter_form;
 use local_organization\base;
@@ -44,16 +46,21 @@ if ($mform->is_cancelled()) {
 $table = new advisors_table('local_organization_advisors_table');
 $sql = "instance_id != 0";
 $params = array('instance_id' => $id, 'user_context' => $user_context);
-echo("<script>console.log('PHP: " . $user_context . "');</script>");
 
 // Define the SQL query to fetch data
 if (!empty($id) && !empty($user_context) ) {
-    $fields = '*';
-    $from = '{local_organization_advisor}';
-    $conditions  = array('instance_id'  => $id, 'user_context' => 'UNIT"');
-    $table->set_sql("*", $from, $conditions);
+    $fields = "u.firstname,
+            u.lastname,
+            r.shortname AS role,
+            un.shortname AS context";
+    $from = '{user} u JOIN {local_organization_advisor} a ON u.id = a.user_id
+            JOIN {role} r ON r.id = a.role_id
+            JOIN {local_organization_unit} un ON un.id = a.instance_id';
+    $conditions = "a.user_context = 'UNIT' and a.id = ".$id;
+    debug_to_console($conditions);
+    $table->set_sql($fields, $from, $conditions);
 }
-echo("<script>console.log('PHP: " . $sql . "');</script>");
+
 // Define the SQL query to fetch data
 //$table->set_sql("*", "{local_organization_advisor}", $sql);
 

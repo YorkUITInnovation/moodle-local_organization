@@ -1,9 +1,16 @@
 <?php
+/*
+ * Author: Admin User
+ * Create Date: 28-09-2024
+ * License: LGPL 
+ * 
+ */
 
 namespace local_organization;
-
-class users
+use local_organization\base;
+class advisors
 {
+
     /**
      *
      * @var string
@@ -17,7 +24,7 @@ class users
     public function __construct()
     {
         global $DB;
-        $this->results = $DB->get_records('user');
+        $this->results = $DB->get_records('local_organization_advisor', null, 'name');
     }
 
     /**
@@ -40,4 +47,5 @@ class users
         }
         return $array;
     }
+
 }

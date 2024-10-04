@@ -39,7 +39,7 @@ class advisors_filter_form extends \moodleform
                 'button',
                 'addadvisor',
                 get_string('new', 'local_organization'),
-                array('onclick' => 'window.location.href = \'add_advisor.php\';')
+                array('onclick' => 'window.location.href = \'edit_advisor.php\';')
             )
         ), 'filtergroup', '', array(' '), false);
         $mform->setType('q', PARAM_NOTAGS);

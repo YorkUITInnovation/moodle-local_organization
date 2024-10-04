@@ -25,7 +25,6 @@ $id = optional_param('unit_id', '', PARAM_INT);
 $user_context = optional_param('user_context', '', PARAM_TEXT);
 
 $formdata = new stdClass();
-$formdata->name = $term;
 
 $mform = new advisors_filter_form(null, array('formdata' => $formdata));
 
@@ -41,8 +40,6 @@ if ($mform->is_cancelled()) {
    // $mform->display();
 }
 
-
-
 $table = new advisors_table('local_organization_advisors_table');
 $sql = "instance_id != 0";
 $params = array('instance_id' => $id, 'user_context' => $user_context);
@@ -57,6 +54,7 @@ if (!empty($id) && !empty($user_context) ) {
             JOIN {role} r ON r.id = a.role_id
             JOIN {local_organization_unit} un ON un.id = a.instance_id';
     $conditions = "a.user_context = 'UNIT' and a.id = ".$id;
+    //TODO: Parameterize this $id
     debug_to_console($conditions);
     $table->set_sql($fields, $from, $conditions);
 }

@@ -7,45 +7,245 @@
  */
 
 namespace local_organization;
+
 use local_organization\base;
-class advisor
+use local_organization\crud;
+class advisor extends crud
 {
+
+
+    /**
+     *
+     * @var int
+     */
+    private $id;
+
+    /**
+     *
+     * @var int
+     */
+    private $user_id;
+
+    /**
+     *
+     * @var int
+     */
+    private $role_id;
+
+    /**
+     *
+     * @var int
+     */
+    private $instance_id;
 
     /**
      *
      * @var string
      */
-    private $results;
+    private $user_context;
 
     /**
      *
-     * @global \moodle_database $DB
+     * @var int
      */
-    public function __construct()
-    {
-        global $DB;
-        $this->results = $DB->get_records('local_organization_advisor', null, 'name');
-    }
+    private $usermodified;
 
     /**
-     * Get records
+     *
+     * @var int
      */
-    public function get_records()
-    {
-        return $this->results;
-    }
+    private $timecreated;
 
     /**
-     * Array to be used for selects
-     * Defaults used key = record id, value = name
-     * Modify as required.
+     *
+     * @var string
      */
-    public function get_select_array()
+    private $timecreated_hr;
+
+    /**
+     *
+     * @var int
+     */
+    private $timemodified;
+
+    /**
+     *
+     * @var string
+     */
+    private $timemodified_hr;
+
+    /**
+     *
+     * @var string
+     */
+    private $table;
+
+
+    /**
+     *
+     *
+     */
+    public function __construct($id = 0)
     {
-        foreach ($this->results as $r) {
-            $array[$r->id] = $r->name;
+        global $CFG, $DB, $DB;
+
+        $this->table = 'local_organization_advisor';
+
+        parent::set_table($this->table);
+
+        if ($id) {
+            $this->id = $id;
+            parent::set_id($this->id);
+            $result = $this->get_record($this->table, $this->id);
+        } else {
+            $result = new \stdClass();
+            $this->id = 0;
+            parent::set_id($this->id);
         }
-        return $array;
+
+        $this->user_id = $result->user_id ?? 0;
+        $this->role_id = $result->role_id ?? 0;
+        $this->instance_id = $result->instance_id ?? 0;
+        $this->user_context = $result->user_context ?? '';
+        $this->usermodified = $result->usermodified ?? 0;
+        $this->timecreated = $result->timecreated ?? 0;
+        $this->timecreated_hr = '';
+        if ($this->timecreated) {
+            $this->timecreated_hr = userdate($result->timecreated,get_string('strftimedate'));
+        }
+        $this->timemodified = $result->timemodified ?? 0;
+        $this->timemodified_hr = '';
+        if ($this->timemodified) {
+            $this->timemodified_hr = userdate($result->timemodified,get_string('strftimedate'));
+        }
+    }
+
+    /**
+     * @return id - bigint (18)
+     */
+    public function get_id()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return user_id - bigint (18)
+     */
+    public function get_user_id()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @return role_id - bigint (18)
+     */
+    public function get_roleid()
+    {
+        return $this->role_id;
+    }
+
+    /**
+     * @return instance_id - bigint (18)
+     */
+    public function get_instanceid()
+    {
+        return $this->instance_id;
+    }
+
+    /**
+     * @return user_context - varchar (255)
+     */
+    public function get_usercontext()
+    {
+        return $this->user_context;
+    }
+
+    /**
+     * @return usermodified - bigint (18)
+     */
+    public function get_usermodified()
+    {
+        return $this->usermodified;
+    }
+
+    /**
+     * @return timecreated - bigint (18)
+     */
+    public function get_timecreated()
+    {
+        return $this->timecreated;
+    }
+
+    /**
+     * @return timemodified - bigint (18)
+     */
+    public function get_timemodified()
+    {
+        return $this->timemodified;
+    }
+
+    /**
+     * @param Type: bigint (18)
+     */
+    public function set_id($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @param Type: bigint (18)
+     */
+    public function set_user_id($user_id)
+    {
+        $this->user_id = $user_id;
+    }
+
+    /**
+     * @param Type: bigint (18)
+     */
+    public function set_roleid($role_id)
+    {
+        $this->role_id = $role_id;
+    }
+
+    /**
+     * @param Type: bigint (18)
+     */
+    public function set_instanceid($instance_id)
+    {
+        $this->instance_id = $instance_id;
+    }
+
+    /**
+     * @param Type: varchar (255)
+     */
+    public function set_usercontext($user_context)
+    {
+        $this->user_context = $user_context;
+    }
+
+    /**
+     * @param Type: bigint (18)
+     */
+    public function set_usermodified($usermodified)
+    {
+        $this->usermodified = $usermodified;
+    }
+
+    /**
+     * @param Type: bigint (18)
+     */
+    public function set_timecreated($timecreated)
+    {
+        $this->timecreated = $timecreated;
+    }
+
+    /**
+     * @param Type: bigint (18)
+     */
+    public function set_timemodified($timemodified)
+    {
+        $this->timemodified = $timemodified;
     }
 
 }

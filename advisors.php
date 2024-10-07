@@ -58,9 +58,9 @@ if (!empty($id) && !empty($user_context) ) {
     debug_to_console($conditions);
     $table->set_sql($fields, $from, $conditions);
 }
-
-// Define the SQL query to fetch data
-//$table->set_sql("*", "{local_organization_advisor}", $sql);
+else {
+    $table->set_sql("*", "{local_organization_advisor}", $sql);
+}
 
 // Define the base URL for the table
 $table->define_baseurl(new moodle_url('/local/organization/advisors.php'));

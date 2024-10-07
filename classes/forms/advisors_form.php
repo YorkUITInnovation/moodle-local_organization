@@ -28,21 +28,29 @@ class advisors_form extends \moodleform
             PARAM_INT
         );
 
+
         // Get all users
-        $USERS = new users();
-        $advisors = $USERS->get_select_array();
-        $options = array(
-            'multiple' => false,
-            'noselectionstring' => get_string('select_user', 'local_organization'),
-        );
+        // ws function name - get_users
+        $user_options = ['multiple' => true, 'ajax' => 'local_organization/users',   'noselectionstring' => get_string('user')];
+        $users = [];
         // Add autocomplete element for user
-        $mform->addElement(
+        /*$mform->addElement(
             'autocomplete',
             'id',
             get_string('users', 'local_organization'),
             $advisors,
             $options
+        );*/
+        // Add autocomplete element for user using AMD
+        $mform->addElement(
+            'autocomplete',
+            'userid',
+            get_string('users', 'local_organization'),
+            $users,
+            $user_options
         );
+
+
 
         // Name form element
         $mform->addElement(

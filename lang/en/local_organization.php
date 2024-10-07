@@ -61,6 +61,7 @@ $string['select_department'] = 'Select Department';
 $string['select_unit'] = 'Select Unit/Faculty';
 $string['select_user'] = 'Select User';
 $string['short_name'] = 'Abbreviation';
+$string['toomanyresults'] = 'Too many results..';
 $string['pluginname'] = 'Organization';
 $string['reset'] = 'Reset';
 $string['role'] = 'Role';

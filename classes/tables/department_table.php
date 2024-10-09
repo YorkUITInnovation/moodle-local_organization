@@ -45,7 +45,8 @@ class department_table extends \table_sql
             'edit_url' => $CFG->wwwroot . '/local/organization/edit_department.php?id=' . $values->id . '&unit_id=' . $values->unit_id,
             'id' => $values->id,
             'advisor_count' => $advisor_count,
-            'user_context' => base::CONTEXT_DEPARTMENT
+            'user_context' => base::CONTEXT_DEPARTMENT,
+            'unit_id' => $values->unit_id
         ];
 
         return $OUTPUT->render_from_template('local_organization/department_table_action_buttons', $actions);

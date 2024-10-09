@@ -50,7 +50,8 @@ class unit_table extends \table_sql
             'id' => $values->id,
             'department_count' => $department_count,
             'advisor_count' => $advisor_count,
-            'user_context' => base::CONTEXT_UNIT
+            'user_context' => base::CONTEXT_UNIT,
+            'campus_id' =>  $values->campus_id
         ];
 
         return $OUTPUT->render_from_template('local_organization/unit_table_action_buttons', $actions);

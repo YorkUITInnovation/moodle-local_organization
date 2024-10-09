@@ -30,7 +30,7 @@ class advisors_filter_form extends \moodleform
                 'button',
                 'returnbutton',
                 get_string('return', 'local_organization'),
-                array('onclick' => 'window.location.href = \'departments.php?unit_id=' . $formdata->instance_id . '\';')
+                array('onclick' => 'window.location.href = \'departments.php?campus_id=' . $formdata->campus_id . '&unit_id='. $formdata->unit_id. '\';')
             );
         }
 

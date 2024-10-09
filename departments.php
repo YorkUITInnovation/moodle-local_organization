@@ -2,6 +2,7 @@
 require_once('../../config.php');
 include_once('classes/tables/department_table.php');
 include_once('classes/forms/department_filter_form.php');
+include_once('classes/helper.php');
 
 use local_organization\base;
 use local_organization\department_table;
@@ -18,19 +19,26 @@ $context = context_system::instance();
 $PAGE->requires->js_call_amd('local_organization/departments', 'init');
 // Load CSS file
 $PAGE->requires->css('/local/organization/css/general.css');
+const USER_CONTEXT = 'DEPARTMENT';
 
-$unit_id = required_param('unit_id', PARAM_INT);
 $term = optional_param('q', '', PARAM_TEXT);
+$campus_id = required_param('campus_id', PARAM_INT);
+$unit_id = required_param('unit_id', PARAM_INT);
 
 $formdata = new stdClass();
 $formdata->name = $term;
+$formdata->user_context = USER_CONTEXT;
+$formdata->campus_id = $campus_id;
 $formdata->unit_id = $unit_id;
+
+debug_to_console($formdata);
 
 $mform = new department_filter_form(null, array('formdata' => $formdata));
 
 if ($mform->is_cancelled()) {
     // Handle form cancel operation, if cancel button is present
     redirect($CFG->wwwroot . '/local/organization/departments.php');
+
 } else if ($data = $mform->get_data()) {
     // Process validated data
     $term_filter = $data->q;

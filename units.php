@@ -31,7 +31,7 @@ $mform = new unit_filter_form(null, array('formdata' => $formdata));
 
 if ($mform->is_cancelled()) {
     // Handle form cancel operation, if cancel button is present
-    redirect($CFG->wwwroot . '/local/organization/units.php');
+    redirect($CFG->wwwroot . '/local/organization/units.php?campus_id=' . $campus_id);
 } else if ($data = $mform->get_data()) {
     // Process validated data
     $term_filter = $data->q;

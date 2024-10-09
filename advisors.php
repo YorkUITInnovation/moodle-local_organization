@@ -2,8 +2,7 @@
 require_once('../../config.php');
 include_once('classes/tables/advisors_table.php');
 include_once('classes/forms/advisors_filter_form.php');
-
-//include_once('classes/helper.php');
+include_once('classes/helper.php');
 
 
 use local_organization\advisors_filter_form;
@@ -24,17 +23,23 @@ $PAGE->requires->css('/local/organization/css/general.css');
 
 $instance_id = optional_param('instance_id', '', PARAM_INT);
 $user_context = optional_param('user_context', '', PARAM_TEXT);
+$unit_id = optional_param('unit_id', '', PARAM_INT);
 
 $formdata = new stdClass();
 $formdata->instance_id = $instance_id;
 $formdata->user_context = $user_context;
+$formdata->unit_id = $unit_id;
 
 $mform = new advisors_filter_form(null, array('formdata' => $formdata));
 
 if ($mform->is_cancelled()) {
     // Handle form cancel operation, if cancel button is present
     // check if UNIT or DEPARTMENT and go to that page
-    redirect($CFG->wwwroot . '/local/organization/units.php');
+   // if ($user_context == 'UNIT') {
+        redirect($CFG->wwwroot . '/local/organization/units.php');
+    //}
+
+
 } else if ($data = $mform->get_data()) {
     // Process validated data
     $term_filter = $data->q;
@@ -60,10 +65,10 @@ if (!empty($instance_id) && !empty($user_context)) {
             JOIN {role} r ON r.id = a.role_id';
     if ($user_context == 'UNIT') {
         $from .= ' JOIN {local_organization_unit} un ON un.id = a.instance_id';
-        $conditions = "a.user_context = 'UNIT' and a.id = " . $instance_id;
+        $conditions = "a.user_context = 'UNIT' and a.instance_id = " . $instance_id;
     } else {
         $from .= ' JOIN {local_organization_dept} un ON un.id = a.instance_id';
-        $conditions = "a.user_context = 'DEPARTMENT' and a.id = " . $instance_id;
+        $conditions = "a.user_context = 'DEPARTMENT' and a.instance_id = " . $instance_id;
     }
 
     //TODO: Parameterize this $id

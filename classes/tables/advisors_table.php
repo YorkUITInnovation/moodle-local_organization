@@ -8,7 +8,7 @@ require_once($CFG->libdir . '/tablelib.php');
 class advisors_table extends \table_sql
 {
     /**
-     * campus_table constructor.
+     * advisors_table constructor.
      * @param $uniqueid
      */
     public function __construct($uniqueid)

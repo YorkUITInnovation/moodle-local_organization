@@ -37,7 +37,7 @@ $mform = new department_filter_form(null, array('formdata' => $formdata));
 
 if ($mform->is_cancelled()) {
     // Handle form cancel operation, if cancel button is present
-    redirect($CFG->wwwroot . '/local/organization/departments.php');
+    redirect($CFG->wwwroot . '/local/organization/departments.php?unit_id= '.$unit_id. '&campus_id='.$campus_id);
 
 } else if ($data = $mform->get_data()) {
     // Process validated data

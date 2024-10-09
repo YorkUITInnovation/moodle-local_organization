@@ -30,14 +30,23 @@ class department_form extends \moodleform
             PARAM_INT
         );
 
-        // Get all campuses
+        $mform->addElement(
+            'hidden',
+            'campus_id'
+        );
+        $mform->setType(
+            'campus_id',
+            PARAM_INT
+        );
+
+        // Get all units
         $UNITS = new units();
         $units = $UNITS->get_select_array();
         $options = array(
             'multiple' => false,
             'noselectionstring' => get_string('select_unit', 'local_organization'),
         );
-        // Add autocomplete element for campus_id
+        // Add autocomplete element for units/department
         $mform->addElement(
             'autocomplete',
             'unit_id',
@@ -45,6 +54,12 @@ class department_form extends \moodleform
             $units,
             $options
         );
+
+        $mform->setType(
+            'unit_id',
+            PARAM_INT
+        );
+
 
         // Name form element
         $mform->addElement(

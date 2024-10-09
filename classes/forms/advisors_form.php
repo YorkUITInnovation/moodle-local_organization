@@ -48,7 +48,6 @@ class advisors_form extends \moodleform
             PARAM_TEXT
         );
 
-
         // Get all users
         // Set value for multiple users based on whether the record has id != 0
         if ($formdata->id != 0) {

@@ -34,7 +34,7 @@ class department_filter_form extends moodleform
                 'button',
                 'adddepartment',
                 get_string('new', 'local_organization'),
-                array('onclick' => 'window.location.href = \'edit_department.php?unit_id=' . $formdata->unit_id .  '\';')
+                array('onclick' => 'window.location.href = \'edit_department.php?unit_id=' . $formdata->unit_id . '&campus_id='. $formdata->campus_id . '\';')
             ),
             $mform->createElement(
                 'button',

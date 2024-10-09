@@ -28,4 +28,13 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
+    'organization_users_get' => array(
+        'classname' => 'local_organization_users_ws',
+        'methodname' => 'get_users',
+        'classpath' => 'local/organization/classes/external/users_ws.php',
+        'description' => 'gets user records',
+        'type' => 'read',
+        'capabilities' => '',
+        'ajax' => true
+    ),
 );

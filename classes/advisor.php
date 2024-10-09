@@ -10,7 +10,7 @@ namespace local_organization;
 
 use local_organization\base;
 use local_organization\crud;
-class unit extends crud
+class advisor extends crud
 {
 
 
@@ -24,25 +24,25 @@ class unit extends crud
      *
      * @var int
      */
-    private $campus_id;
+    private $user_id;
+
+    /**
+     *
+     * @var int
+     */
+    private $role_id;
+
+    /**
+     *
+     * @var int
+     */
+    private $instance_id;
 
     /**
      *
      * @var string
      */
-    private $name;
-
-    /**
-     *
-     * @var string
-     */
-    private $shortname;
-
-    /**
-     *
-     * @var string
-     */
-    private $id_number;
+    private $user_context;
 
     /**
      *
@@ -80,7 +80,6 @@ class unit extends crud
      */
     private $table;
 
-    private $user_context;
 
     /**
      *
@@ -89,8 +88,8 @@ class unit extends crud
     public function __construct($id = 0)
     {
         global $CFG, $DB, $DB;
-        define('CONTEXT_USER','UNIT');
-        $this->table = 'local_organization_unit';
+
+        $this->table = 'local_organization_advisor';
 
         parent::set_table($this->table);
 
@@ -104,10 +103,10 @@ class unit extends crud
             parent::set_id($this->id);
         }
 
-        $this->campus_id = $result->campus_id ?? 0;
-        $this->name = $result->name ?? '';
-        $this->shortname = $result->shortname ?? '';
-        $this->id_number = $result->id_number ?? '';
+        $this->user_id = $result->user_id ?? 0;
+        $this->role_id = $result->role_id ?? 0;
+        $this->instance_id = $result->instance_id ?? 0;
+        $this->user_context = $result->user_context ?? '';
         $this->usermodified = $result->usermodified ?? 0;
         $this->timecreated = $result->timecreated ?? 0;
         $this->timecreated_hr = '';
@@ -119,7 +118,6 @@ class unit extends crud
         if ($this->timemodified) {
             $this->timemodified_hr = userdate($result->timemodified,get_string('strftimedate'));
         }
-        $this->user_context = CONTEXT_USER;
     }
 
     /**
@@ -131,35 +129,35 @@ class unit extends crud
     }
 
     /**
-     * @return campus_id - bigint (18)
+     * @return user_id - bigint (18)
      */
-    public function get_campus_id()
+    public function get_user_id()
     {
-        return $this->campus_id;
+        return $this->user_id;
     }
 
     /**
-     * @return name - varchar (255)
+     * @return role_id - bigint (18)
      */
-    public function get_name()
+    public function get_roleid()
     {
-        return $this->name;
+        return $this->role_id;
     }
 
     /**
-     * @return shortname - varchar (15)
+     * @return instance_id - bigint (18)
      */
-    public function get_shortname()
+    public function get_instanceid()
     {
-        return $this->shortname;
+        return $this->instance_id;
     }
 
     /**
-     * @return id_number - varchar (255)
+     * @return user_context - varchar (255)
      */
-    public function get_id_number()
+    public function get_usercontext()
     {
-        return $this->id_number;
+        return $this->user_context;
     }
 
     /**
@@ -197,33 +195,33 @@ class unit extends crud
     /**
      * @param Type: bigint (18)
      */
-    public function set_campus_id($campus_id)
+    public function set_user_id($user_id)
     {
-        $this->campus_id = $campus_id;
+        $this->user_id = $user_id;
+    }
+
+    /**
+     * @param Type: bigint (18)
+     */
+    public function set_roleid($role_id)
+    {
+        $this->role_id = $role_id;
+    }
+
+    /**
+     * @param Type: bigint (18)
+     */
+    public function set_instanceid($instance_id)
+    {
+        $this->instance_id = $instance_id;
     }
 
     /**
      * @param Type: varchar (255)
      */
-    public function set_name($name)
+    public function set_usercontext($user_context)
     {
-        $this->name = $name;
-    }
-
-    /**
-     * @param Type: varchar (15)
-     */
-    public function set_shortname($shortname)
-    {
-        $this->shortname = $shortname;
-    }
-
-    /**
-     * @param Type: varchar (255)
-     */
-    public function set_id_number($id_number)
-    {
-        $this->id_number = $id_number;
+        $this->user_context = $user_context;
     }
 
     /**
@@ -248,19 +246,6 @@ class unit extends crud
     public function set_timemodified($timemodified)
     {
         $this->timemodified = $timemodified;
-    }
-
-    /**
-     * Delete unit if no departments are using it
-     */
-    public function delete_record()
-    {
-        global $DB;
-        // Check to see if any departments are using this unit
-        if ($departments = $DB->get_records('local_organization_dept', array('unit_id' => $this->id))) {
-            return false;
-        }
-        return parent::delete_record();
     }
 
 }

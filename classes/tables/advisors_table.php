@@ -50,10 +50,11 @@ class advisors_table extends \table_sql
             'usercontext' => $values->user_context,
         );
 
-        //$advisor_count = $DB->count_records('local_organization_advisor', $condition1, $condition2);
+        $advisor_count = $DB->count_records('local_organization_advisor', ['instance_id' => $values->instance_id, 'user_context' => $values->user_context]);
         $actions = [
-            'edit_url' => new \moodle_url('/local/organization/edit_campus.php', array('id' => $values->id)),
-            'id' => $values->id
+            'edit_url' => new \moodle_url('/local/organization/edit_advisor.php', array('id' => $values->id)),
+            'id' => $values->id,
+            'advisor_count' => $advisor_count,
         ];
 
         return $OUTPUT->render_from_template('local_organization/advisors_table_action_buttons', $actions);

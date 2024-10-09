@@ -64,6 +64,7 @@ $string['short_name'] = 'Abbreviation';
 $string['toomanyresults'] = 'Too many results..';
 $string['pluginname'] = 'Organization';
 $string['reset'] = 'Reset';
+$string['return'] = 'Return';
 $string['role'] = 'Role';
 $string['unit' ] = 'Unit/Faculty';
 $string['units'] = 'Units/Faculties';

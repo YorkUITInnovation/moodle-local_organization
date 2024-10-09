@@ -17,6 +17,22 @@ class advisors_filter_form extends \moodleform
 
         // Define no submit button
 //        $mform->registerNoSubmitButton('resetbutton');
+        // Based on user context, add a button to return to the proper context
+        if ($formdata->user_context == 'UNIT') {
+           $return_button = $mform->createElement(
+                'button',
+                'returnbutton',
+                get_string('return', 'local_organization'),
+                array('onclick' => 'window.location.href = \'units.php?campus_id=' . $formdata->instance_id . '\';')
+            );
+        } else {
+            $return_button = $mform->createElement(
+                'button',
+                'returnbutton',
+                get_string('return', 'local_organization'),
+                array('onclick' => 'window.location.href = \'departments.php?unit_id=' . $formdata->instance_id . '\';')
+            );
+        }
 
         // Group the text input and submit button
         $mform->addGroup(array(
@@ -39,8 +55,9 @@ class advisors_filter_form extends \moodleform
                 'button',
                 'addadvisor',
                 get_string('new', 'local_organization'),
-                array('onclick' => 'window.location.href = \'edit_advisor.php\';')
-            )
+                array('onclick' => 'window.location.href = \'edit_advisor.php?instance_id=' . $formdata->instance_id . '&user_context=' . $formdata->user_context . '\';')
+            ),
+            $return_button
         ), 'filtergroup', '', array(' '), false);
         $mform->setType('q', PARAM_NOTAGS);
 

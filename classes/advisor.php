@@ -248,4 +248,35 @@ class advisor extends crud
         $this->timemodified = $timemodified;
     }
 
+    /**
+     * Insert record into selected table
+     * @param object $data
+     * @global \stdClass $USER
+     * @global \moodle_database $DB
+     */
+    public function insert_record($data)
+    {
+        global $DB, $USER;
+
+        $context = \context_system::instance();
+
+        if (!isset($data->timecreated)) {
+            $data->timecreated = time();
+        }
+
+        if (!isset($data->timemodified)) {
+            $data->timemodified = time();
+        }
+
+        //Set user
+        $data->usermodified = $USER->id;
+
+        $id = $DB->insert_record($this->table, $data);
+
+        // Now add user to the role
+        role_assign($data->role_id, $data->user_id, $context->id);
+
+        return $id;
+    }
+
 }

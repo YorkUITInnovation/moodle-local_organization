@@ -28,74 +28,74 @@ class advisors_form extends \moodleform
             PARAM_INT
         );
 
+        // Add hidden element for instance_id
+        $mform->addElement(
+            'hidden',
+            'instance_id'
+        );
+        $mform->setType(
+            'instance_id',
+            PARAM_INT
+        );
+
+        // Add hidden element for user_context
+        $mform->addElement(
+            'hidden',
+            'user_context'
+        );
+        $mform->setType(
+            'user_context',
+            PARAM_TEXT
+        );
+
 
         // Get all users
+        // Set value for multiple users based on whether the record has id != 0
+        if ($formdata->id != 0) {
+            $multiple_users = false;
+        } else {
+            // Add more than one user at a time to the role
+            $multiple_users = true;
+        }
         // ws function name - get_users
-        $user_options = ['multiple' => true, 'ajax' => 'local_organization/users',   'noselectionstring' => get_string('user')];
+        $user_options = ['multiple' => $multiple_users, 'ajax' => 'local_organization/users',   'noselectionstring' => get_string('user')];
         $users = [];
-        // Add autocomplete element for user
-        /*$mform->addElement(
-            'autocomplete',
-            'id',
-            get_string('users', 'local_organization'),
-            $advisors,
-            $options
-        );*/
         // Add autocomplete element for user using AMD
         $mform->addElement(
             'autocomplete',
-            'userid',
+            'user_id',
             get_string('users', 'local_organization'),
             $users,
             $user_options
         );
-
-
-
-        // Name form element
-        $mform->addElement(
-            'text',
-            'name',
-            get_string('name', 'local_organization')
-        );
-        $mform->setType(
-            'name', PARAM_TEXT
-        );
+        // User_id filed is required
         $mform->addRule(
-            'name',
-            get_string('required'),
+            'user_id',
+            null,
             'required',
             null,
             'client'
         );
 
-        // role form element
+        // Get role data
+        $role_options = ['multiple' => false, 'ajax' => 'local_organization/roles',   'noselectionstring' => get_string('role')];
+        $roles = [];
+        // Add autocomplete element for user using AMD
         $mform->addElement(
-            'text',
-            'role',
-            get_string('role', 'local_organization')
+            'autocomplete',
+            'role_id',
+            get_string('role'),
+            $roles,
+            $role_options
         );
-        $mform->setType(
-            'role', PARAM_TEXT
-        );
+        // Role_id filed is required
         $mform->addRule(
-            'role',
-            get_string('required'),
+            'role_id',
+            null,
             'required',
             null,
             'client'
         );
-
-        // instance id or actual unit or department form element
-        $mform->addElement(
-            'text',
-            'Name of Unit/Department',
-            get_string('context', 'local_organization')
-        );
-        $mform->setType(
-            'context', PARAM_TEXT
-        );
-
 
         $this->add_action_buttons();
         $this->set_data($formdata);

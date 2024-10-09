@@ -37,4 +37,13 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
+    'organization_roles_get' => array(
+        'classname' => 'local_organization_users_ws',
+        'methodname' => 'get_roles',
+        'classpath' => 'local/organization/classes/external/users_ws.php',
+        'description' => 'gets existing roles',
+        'type' => 'read',
+        'capabilities' => '',
+        'ajax' => true
+    ),
 );

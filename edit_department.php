@@ -52,7 +52,7 @@ if ($mform->is_cancelled()) {
         $DEPARTMENT->insert_record($data);
     }
 
-    redirect($CFG->wwwroot . '/local/organization/departments.php?unit_id=' . $formdata->unit_id);
+    redirect($CFG->wwwroot . '/local/organization/departments.php?unit_id=' . $data->unit_id);
 } else {
     // Set form data
     $mform->set_data($formdata);

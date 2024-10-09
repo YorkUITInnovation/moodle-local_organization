@@ -69,4 +69,85 @@ class local_organization_users_ws extends external_api
     public static function get_users_returns() {
         return new external_multiple_structure(self::user_details());
     }
+
+    /**
+     * Returns users parameters
+     * @return external_function_parameters
+     **/
+
+    public static function get_roles_parameters() {
+        return new external_function_parameters(
+            array(
+                'id' => new external_value(PARAM_INT, 'User id', false, -1),
+                'name' => new external_value(PARAM_TEXT, 'User first or last name', false)
+            )
+        );
+    }
+
+    /** Returns Roles
+     * @global moodle_database $DB
+     * @return string users
+     **/
+
+    public static function get_roles($id, $name="") {
+        global $DB;
+        $params = self::validate_parameters(
+            self::get_users_parameters(),
+            array(
+                'id' => $id,
+                'name' => $name
+            )
+        );
+        if (strlen($name) >= 3) {
+            $sql = "select * from {role} u where ";
+            $sql .= " (name like '%$name%') OR (shortname like '%$name%')";
+            // Get the data
+            $existing_roles = $DB->get_records_sql($sql);
+        }
+        else {
+            //            $sql = "select * from {user} Order By lastname"; $mdlUsers = [];
+        }
+        $roles = [];
+        $i = 0;
+        foreach ($existing_roles as $r) {
+            $roles[$i]['id'] = $r->id;
+            // System roles have no name
+            if (empty($r->name)) {
+                switch($r->shortname) {
+                    case 'editingteacher':
+                    case 'teacher':
+                        $roles[$i]['name'] = get_string('legacy:' . $r->shortname, 'core_role');
+                        break;
+                    default:
+                        $roles[$i]['name'] = get_string($r->shortname, 'core_role');
+                        break;
+                }
+
+            }
+            else {
+                $roles[$i]['name'] = $r->name;
+            }
+            $i++;
+        }
+        return $roles;
+    }
+
+    /** Get Users
+     * @return single_structure_description
+     **/
+
+    public static function roles_details() {
+        $fields = array(
+            'id' => new external_value(PARAM_INT, 'Record id', false),
+            'name' => new external_value(PARAM_TEXT, 'User first name', true)
+        );
+        return new external_single_structure($fields);
+    }
+
+    /** Returns users result value
+     *  @return external_description
+     **/
+    public static function get_roles_returns() {
+        return new external_multiple_structure(self::roles_details());
+    }
 }

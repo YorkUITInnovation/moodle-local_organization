@@ -2,7 +2,8 @@
 require_once('../../config.php');
 include_once('classes/tables/advisors_table.php');
 include_once('classes/forms/advisors_filter_form.php');
-include_once('classes/helper.php');
+
+//include_once('classes/helper.php');
 
 
 use local_organization\advisors_filter_form;
@@ -21,10 +22,12 @@ $context = context_system::instance();
 // Load CSS file
 $PAGE->requires->css('/local/organization/css/general.css');
 
-$id = optional_param('unit_id', '', PARAM_INT);
+$instance_id = optional_param('instance_id', '', PARAM_INT);
 $user_context = optional_param('user_context', '', PARAM_TEXT);
 
 $formdata = new stdClass();
+$formdata->instance_id = $instance_id;
+$formdata->user_context = $user_context;
 
 $mform = new advisors_filter_form(null, array('formdata' => $formdata));
 
@@ -37,36 +40,43 @@ if ($mform->is_cancelled()) {
     $term_filter = $data->q;
 } else {
     // Display the form
-   // $mform->display();
+    // $mform->display();
 }
 
 $table = new advisors_table('local_organization_advisors_table');
 $sql = "instance_id != 0";
-$params = array('instance_id' => $id, 'user_context' => $user_context);
+$params = array('instance_id' => $instance_id, 'user_context' => $user_context);
 
 // Define the SQL query to fetch data
-if (!empty($id) && !empty($user_context) ) {
-    $fields = "u.firstname,
-            u.lastname,
+if (!empty($instance_id) && !empty($user_context)) {
+    $fields = "a.id as id,
+            u.firstname AS firstname,
+            u.lastname AS lastname,
             r.shortname AS role,
-            un.shortname AS context";
+            un.name AS context,
+            a.instance_id as instance_id,
+            a.user_context as user_context";
     $from = '{user} u JOIN {local_organization_advisor} a ON u.id = a.user_id
-            JOIN {role} r ON r.id = a.role_id
-            JOIN {local_organization_unit} un ON un.id = a.instance_id';
-    $conditions = "a.user_context = 'UNIT' and a.id = ".$id;
+            JOIN {role} r ON r.id = a.role_id';
+    if ($user_context == 'UNIT') {
+        $from .= ' JOIN {local_organization_unit} un ON un.id = a.instance_id';
+        $conditions = "a.user_context = 'UNIT' and a.id = " . $instance_id;
+    } else {
+        $from .= ' JOIN {local_organization_dept} un ON un.id = a.instance_id';
+        $conditions = "a.user_context = 'DEPARTMENT' and a.id = " . $instance_id;
+    }
+
     //TODO: Parameterize this $id
-    debug_to_console($conditions);
     $table->set_sql($fields, $from, $conditions);
-}
-else {
+} else {
     $table->set_sql("*", "{local_organization_advisor}", $sql);
 }
 
 // Define the base URL for the table
-$table->define_baseurl(new moodle_url('/local/organization/advisors.php'));
+$table->define_baseurl(new moodle_url('/local/organization/advisors.php?instance_id=' . $instance_id . '&user_context=' . $user_context));
 
 base::page(
-    new moodle_url('/local/organization/advisors.php'),
+    new moodle_url('/local/organization/advisors.php?instance_id=' . $instance_id . '&user_context=' . $user_context),
     get_string('advisors', 'local_organization'),
     get_string('advisors', 'local_organization')
 );

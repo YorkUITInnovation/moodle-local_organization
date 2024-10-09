@@ -5,6 +5,8 @@ namespace local_organization;
 require_once('../../config.php');
 require_once($CFG->libdir . '/tablelib.php');
 
+use local_organization\base;
+
 class department_table extends \table_sql
 {
     /**
@@ -37,10 +39,13 @@ class department_table extends \table_sql
      */
     public function col_actions($values)
     {
-        global $OUTPUT, $CFG;
+        global $OUTPUT, $CFG, $DB;
+        $advisor_count = $DB->count_records('local_organization_advisor', array('instance_id' => $values->id, 'user_context' => base::CONTEXT_DEPARTMENT));
         $actions = [
             'edit_url' => $CFG->wwwroot . '/local/organization/edit_department.php?id=' . $values->id . '&unit_id=' . $values->unit_id,
-            'id' => $values->id
+            'id' => $values->id,
+            'advisor_count' => $advisor_count,
+            'user_context' => base::CONTEXT_DEPARTMENT
         ];
 
         return $OUTPUT->render_from_template('local_organization/department_table_action_buttons', $actions);

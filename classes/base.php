@@ -9,6 +9,9 @@ class base
     // Set constant for buttons
     const CONTEXT_TONE = 'TONE';
     const CONTEXT_LENGTH = 'LENGTH';
+    // Set context for advisors
+    const CONTEXT_UNIT = 'UNIT';
+    const CONTEXT_DEPARTMENT = 'DEPARTMENT';
 
     /**
      * Creates the Moodle page header

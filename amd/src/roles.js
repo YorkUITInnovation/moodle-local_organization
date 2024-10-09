@@ -29,7 +29,7 @@ define(['jquery', 'core/ajax', 'core/templates', 'core/str'], function($, Ajax, 
             let perpage = 50;
 
             promise = Ajax.call([{
-                methodname: 'organization_users_get',
+                methodname: 'organization_roles_get',
                 args: {
                     name: query,
                 }
@@ -61,7 +61,7 @@ define(['jquery', 'core/ajax', 'core/templates', 'core/str'], function($, Ajax, 
                         //the value of the item selected and that is passed into the form?
                         value: record.id,
                         //The text that displays inside the selection menu
-                        label: record.firstname + " " + record.lastname + ' (' + record.email + ')'
+                        label: record.name
                     });
                 });
                 return records;

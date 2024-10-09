@@ -279,4 +279,13 @@ class advisor extends crud
         return $id;
     }
 
+    /**
+     * Delete unit if no departments are using it
+     */
+    public function delete_record()
+    {
+        global $DB;
+        return parent::delete_record();
+    }
+
 }

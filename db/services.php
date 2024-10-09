@@ -28,6 +28,15 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
+    'organization_advisor_delete' => array(
+        'classname' => 'local_organization_advisors_ws',
+        'methodname' => 'delete',
+        'classpath' => 'local/organization/classes/external/advisors_ws.php',
+        'description' => 'Delete advisor record',
+        'type' => 'write',
+        'capabilities' => '',
+        'ajax' => true
+    ),
     'organization_users_get' => array(
         'classname' => 'local_organization_users_ws',
         'methodname' => 'get_users',

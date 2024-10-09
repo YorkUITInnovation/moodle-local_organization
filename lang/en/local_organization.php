@@ -38,10 +38,12 @@ $string['could_not_delete_campus'] = 'The campus record could not be deleted. Th
     . 'are associated with this campus or an error has occurred.';
 $string['could_not_delete_unit'] = 'The unit record could not be deleted. This could be because one or more departments '
     . 'are associated with this unit or an error has occurred.';
+$string['could_not_delete_advisor'] = 'The advisor record could not be deleted.';
 $string['delete'] = 'Delete';
 $string['delete_campus'] = 'Are you sure you want to delete the campus? This action cannot be undone.';
 $string['delete_department'] = 'Are you sure you want to delete the department? This action cannot be undone.';
 $string['delete_unit'] = 'Are you sure you want to delete the unit? This action cannot be undone.';
+$string['delete_advisor'] = 'Are you sure you want to delete the advisor? This action cannot be undone.';
 $string['department'] = 'Department';
 $string['departments'] = 'Departments';
 $string['add_advisor'] = 'Add Advisor';

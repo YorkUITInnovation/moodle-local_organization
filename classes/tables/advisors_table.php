@@ -42,14 +42,6 @@ class advisors_table extends \table_sql
         global $OUTPUT, $DB;
         // Get number of advisors in unt or departments
 
-        $condition1 = 'instance_id = :param1'; // DEPARTMENT or UNIT id
-        $condition2 = 'user_context = :param2';
-
-        $params = array(
-            'instanceid' => $values->instance_id,
-            'usercontext' => $values->user_context,
-        );
-
         $advisor_count = $DB->count_records('local_organization_advisor', ['instance_id' => $values->instance_id, 'user_context' => $values->user_context]);
         $actions = [
             'edit_url' => new \moodle_url('/local/organization/edit_advisor.php', array('id' => $values->id)),

@@ -17,7 +17,7 @@ require_login(1, false);
 $context = context_system::instance();
 
 // Load AMD module
-//$PAGE->requires->js_call_amd('local_organization/campuses', 'init');
+$PAGE->requires->js_call_amd('local_organization/advisors', 'init');
 // Load CSS file
 $PAGE->requires->css('/local/organization/css/general.css');
 

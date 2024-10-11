@@ -62,8 +62,7 @@ if ($mform->is_cancelled()) {
     } else {
         $ADVISOR->update_record($data);
     }
-    debug_to_console("After update or insert");
-    debug_to_console($data);
+
     if ($user_context == 'UNIT') {
         redirect($CFG->wwwroot . '/local/organization/advisors.php?unit_id=' . $data->unit_id . '&nstance_id=' . $data->instance_id .'&user_context=' . $data->user_context);
     }
@@ -74,7 +73,6 @@ if ($mform->is_cancelled()) {
     // Set form data
     $mform->set_data($formdata);
 }
-debug_to_console('no redirect');
 // Set page parameters
 
 base::page(

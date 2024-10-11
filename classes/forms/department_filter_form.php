@@ -39,7 +39,7 @@ class department_filter_form extends moodleform
             $mform->createElement(
                 'button',
                 'unitsretunr',
-                get_string('campus', 'local_organization'),
+                get_string('units', 'local_organization'),
                 array('onclick' => 'window.location.href = \'units.php?campus_id=' . $formdata->campus_id .  '\';')
             )
         ), 'filtergroup', '', array(' '), false);

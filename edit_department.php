@@ -35,7 +35,7 @@ if ($id != 0) {
 // adding campus id so we'll know
 $formdata->campus_id = $campus_id;
 $formdata->unit_id = $unit_id;
-echo("<script>console.log('before going in form: " . $formdata->unit_id . "');</script>");
+echo("<script>console.log('before going in form the campusid: " . $campus_id . "');</script>");
 // Create form
 $mform = new \local_organization\department_form(null, array('formdata' => $formdata));
 unset($DEPARTMENT);

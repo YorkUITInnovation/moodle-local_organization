@@ -47,8 +47,8 @@ if ($mform->is_cancelled()) {
 //    $mform->display();
 }
 
-$table = new department_table('local_organization_departments_table');
-$params = array();
+$table = new department_table('local_organization_departments_table', $formdata);
+
 // Define the SQL query to fetch data
 $sql = "unit_id = $unit_id";
 if (!empty($term_filter)) {
@@ -59,7 +59,7 @@ if (!empty($term_filter)) {
 $table->set_sql('*', '{local_organization_dept}', $sql);
 
 // Define the base URL for the table
-$table->define_baseurl(new moodle_url('/local/organization/departments.php'));
+$table->define_baseurl(new moodle_url('/local/organization/departments.php?unit_id= '.$unit_id));
 
 base::page(
     new moodle_url('/local/organization/departments.php'),

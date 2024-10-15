@@ -72,3 +72,10 @@ $string['unit' ] = 'Unit/Faculty';
 $string['units'] = 'Units/Faculties';
 $string['users'] = 'Users';
 
+/**
+ * Capabilites
+ */
+$string['organization:advisor_edit'] = 'Edit, Delete Advisors';
+$string['organization:advisor_view'] = 'View Advisors';
+$string['organization:unit_edit'] = 'Edit, Delete Campuses, Units/Faculties, Departments';
+$string['organization:unit_view'] = 'View Campuses, Units/Faculties, Departments';

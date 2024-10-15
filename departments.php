@@ -31,8 +31,6 @@ $formdata->user_context = USER_CONTEXT;
 $formdata->campus_id = $campus_id;
 $formdata->unit_id = $unit_id;
 
-debug_to_console($formdata);
-
 $mform = new department_filter_form(null, array('formdata' => $formdata));
 
 if ($mform->is_cancelled()) {

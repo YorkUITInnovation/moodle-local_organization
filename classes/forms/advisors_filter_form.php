@@ -18,12 +18,12 @@ class advisors_filter_form extends \moodleform
         // Define no submit button
 //        $mform->registerNoSubmitButton('resetbutton');
         // Based on user context, add a button to return to the proper context
-        if ($formdata->user_context == 'UNIT') {
+        if ($formdata->user_context == base::CONTEXT_UNIT) {
            $return_button = $mform->createElement(
                 'button',
                 'returnbutton',
                 get_string('return', 'local_organization'),
-                array('onclick' => 'window.location.href = \'units.php?campus_id=' . $formdata->instance_id . '\';')
+                array('onclick' => 'window.location.href = \'units.php?campus_id=' . $formdata->campus_id . '\';')
             );
         } else {
             $return_button = $mform->createElement(
@@ -55,7 +55,7 @@ class advisors_filter_form extends \moodleform
                 'button',
                 'addadvisor',
                 get_string('new', 'local_organization'),
-                array('onclick' => 'window.location.href = \'edit_advisor.php?instance_id=' . $formdata->instance_id . '&user_context=' . $formdata->user_context . '\';')
+                array('onclick' => 'window.location.href = \'edit_advisor.php?campus_id=' . $formdata->campus_id . '&instance_id=' . $formdata->instance_id . '&user_context=' . $formdata->user_context . '&unit_id=' . $formdata->unit_id. '\';')
             ),
             $return_button
         ), 'filtergroup', '', array(' '), false);

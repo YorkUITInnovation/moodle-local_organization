@@ -63,17 +63,6 @@ class campus_form extends \moodleform
             'client'
         );
 
-        // id_number form element
-        $mform->addElement(
-            'text',
-            'id_number',
-            get_string('id_number', 'local_organization')
-        );
-        $mform->setType(
-            'id_number', PARAM_TEXT
-        );
-
-
         $this->add_action_buttons();
         $this->set_data($formdata);
     }

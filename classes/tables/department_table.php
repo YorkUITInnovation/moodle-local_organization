@@ -51,7 +51,8 @@ class department_table extends \table_sql
             'id' => $values->id,
             'advisor_count' => $advisor_count,
             'user_context' => base::CONTEXT_DEPARTMENT,
-            'unit_id' => $values->unit_id
+            'unit_id' => $values->unit_id,
+            'campus_id' => $this->campus_id
         ];
 
         return $OUTPUT->render_from_template('local_organization/department_table_action_buttons', $actions);

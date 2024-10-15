@@ -21,24 +21,30 @@ $PAGE->requires->js_call_amd('local_organization/advisors', 'init');
 // Load CSS file
 $PAGE->requires->css('/local/organization/css/general.css');
 
-$instance_id = optional_param('instance_id', '', PARAM_INT);
-$user_context = optional_param('user_context', '', PARAM_TEXT);
-$unit_id = optional_param('unit_id', '', PARAM_INT);
+$instance_id = required_param('instance_id', PARAM_INT);
+$user_context = required_param('user_context',PARAM_TEXT);
+$campus_id = required_param('campus_id',PARAM_TEXT);
+$unit_id = required_param('unit_id', PARAM_INT);
 
 $formdata = new stdClass();
 $formdata->instance_id = $instance_id;
 $formdata->user_context = $user_context;
 $formdata->unit_id = $unit_id;
+$formdata->campus_id = $campus_id;
+
 
 $mform = new advisors_filter_form(null, array('formdata' => $formdata));
 
 if ($mform->is_cancelled()) {
     // Handle form cancel operation, if cancel button is present
     // check if UNIT or DEPARTMENT and go to that page
-   // if ($user_context == 'UNIT') {
-        redirect($CFG->wwwroot . '/local/organization/units.php');
-    //}
 
+    if ($user_context == base::CONTEXT_UNIT) {
+        redirect($CFG->wwwroot .'/local/organization/units.php?campus_id=' . $formdata->campus_id);
+    }
+    else {
+        redirect($CFG->wwwroot . '/local/organization/departments.php?campus_id=' . $formdata->campus_id . '&unit_id='. $formdata->unit_id);
+    }
 
 } else if ($data = $mform->get_data()) {
     // Process validated data

@@ -11,6 +11,11 @@ require_once($CFG->dirroot . "/local/organization/classes/forms/campus_form.php"
 require_login(1, false);
 
 $context = context_system::instance();
+// Capability to view/edit page
+$hasCapability_view_edit = has_capability('local/organization:unit_view', $PAGE->context, $USER->id) && has_capability('local/organization:unit_edit', $PAGE->context, $USER->id) ;
+if (!$hasCapability_view_edit) {
+    redirect($CFG->wwwroot . '/my');
+}
 
 $id = optional_param('id', 0, PARAM_INT); // campus id
 // Set page title based on whether we are creating or editing a campus

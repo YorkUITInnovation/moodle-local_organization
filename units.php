@@ -7,12 +7,19 @@ use local_organization\base;
 use local_organization\unit_table;
 use local_organization\unit_filter_form;
 
-global $CFG, $OUTPUT, $PAGE, $DB;
+global $CFG, $OUTPUT, $PAGE, $DB, $USER;
 
 
 require_login(1, false);
 
 $context = context_system::instance();
+
+// Capability to view/edit page
+$hasCapability_view_edit = has_capability('local/organization:unit_view', $PAGE->context, $USER->id);
+if (!$hasCapability_view_edit) {
+    redirect($CFG->wwwroot . '/my');
+}
+
 // Load AMD module
 $PAGE->requires->js_call_amd('local_organization/units', 'init');
 // Load CSS file

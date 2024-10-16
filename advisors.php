@@ -8,13 +8,15 @@ use local_organization\advisors_filter_form;
 use local_organization\base;
 use local_organization\advisors_table;
 
-global $CFG, $OUTPUT, $PAGE, $DB;
+global $CFG, $OUTPUT, $PAGE, $D, $USER;
 
 
 require_login(1, false);
 
 $context = context_system::instance();
-
+if (!has_capability('local/organization:advisor_view', $PAGE->context, $USER->id)) {
+    redirect($CFG->wwwroot . '/my');
+}
 // Load AMD module
 $PAGE->requires->js_call_amd('local_organization/advisors', 'init');
 // Load CSS file

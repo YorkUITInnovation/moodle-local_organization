@@ -13,7 +13,11 @@ require_once($CFG->dirroot . "/local/organization/classes/forms/advisors_form.ph
 require_login(1, false);
 
 $context = context_system::instance();
-
+// Capability to view/edit page
+$hasCapability_view_edit = has_capability('local/organization:advisor_view', $PAGE->context, $USER->id) && has_capability('local/organization:advisor_edit', $PAGE->context, $USER->id) ;
+if (!$hasCapability_view_edit) {
+    redirect($CFG->wwwroot . '/my');
+}
 $id = optional_param('id', 0, PARAM_INT); // user
 $instance_id = optional_param('instance_id', 0, PARAM_INT); // unit_id
 // get user context of user UNIT or DEPARTMENT

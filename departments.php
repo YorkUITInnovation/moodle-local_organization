@@ -7,13 +7,15 @@ use local_organization\base;
 use local_organization\department_table;
 use local_organization\department_filter_form;
 
-global $CFG, $OUTPUT, $PAGE, $DB;
+global $CFG, $OUTPUT, $PAGE, $DB, $USER;
 
 
 require_login(1, false);
 
 $context = context_system::instance();
-
+if (!has_capability('local/organization:unit_view', $PAGE->context, $USER->id)) {
+    redirect($CFG->wwwroot . '/my');
+}
 // Load AMD module
 $PAGE->requires->js_call_amd('local_organization/departments', 'init');
 // Load CSS file

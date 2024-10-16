@@ -47,8 +47,9 @@ if ($mform->is_cancelled()) {
 //    $mform->display();
 }
 
-$table = new department_table('local_organization_departments_table');
 $params = array();
+$table = new department_table('local_organization_departments_table', $formdata);
+
 // Define the SQL query to fetch data
 $sql = "unit_id = $unit_id";
 if (!empty($term_filter)) {

@@ -18,8 +18,8 @@ $id = optional_param('id', 0, PARAM_INT); // user
 $instance_id = optional_param('instance_id', 0, PARAM_INT); // unit_id
 // get user context of user UNIT or DEPARTMENT
 $user_context = optional_param('user_context', '', PARAM_TEXT); // user
-
-
+$campus_id = optional_param('campus_id', '', PARAM_INT); // user
+$unit_id = optional_param('unit_id', '', PARAM_INT); // user
 
 // Set page title based on whether we are creating or editing a campus
 $page_title = get_string('add_advisor', 'local_organization');
@@ -36,6 +36,8 @@ if ($id != 0) {
     $formdata->id = 0;
     $formdata->instance_id = $instance_id;
     $formdata->user_context = $user_context;
+    $formdata->campus_id = $campus_id; // need these to go back
+    $formdata->unit_id = $unit_id; // need these to go back
 }
 // Create form
 $mform = new advisors_form(null, array('formdata' => $formdata));
@@ -44,7 +46,12 @@ unset($ADVISOR);
 // Form actions
 if ($mform->is_cancelled()) {
     //Handle form cancel operation, if cancel button is present on form
-    redirect($CFG->wwwroot . '/local/organization/advisors.php?instance_id=' . $instance_id . '&user_context=' .$user_context);
+    if ($user_context == 'UNIT') {
+        redirect($CFG->wwwroot . '/local/organization/advisors.php?unit_id=' . $formdata->unit_id . '&instance_id=' . $formdata->instance_id .'&user_context=' . $formdata->user_context);
+    }
+    else { // its department within a UNIT
+        redirect($CFG->wwwroot . '/local/organization/advisors.php?unit_id=' . $formdata->unit_id . '&instance_id=' . $formdata->instance_id . '&user_context=' . $formdata->user_context . '&campus_id=' . $formdata->campus_id);
+    }
 } else if ($data = $mform->get_data()) {
 
     $ADVISOR = new advisor($data->id);
@@ -62,21 +69,19 @@ if ($mform->is_cancelled()) {
     } else {
         $ADVISOR->update_record($data);
     }
-    debug_to_console("After update or insert");
-    debug_to_console($data);
+
     if ($user_context == 'UNIT') {
-        redirect($CFG->wwwroot . '/local/organization/advisors.php?unit_id=' . $data->unit_id . '&nstance_id=' . $data->instance_id .'&user_context=' . $data->user_context);
+        redirect($CFG->wwwroot . '/local/organization/advisors.php?unit_id=' . $data->unit_id . '&instance_id=' . $data->instance_id .'&user_context=' . $data->user_context);
     }
     else {
-        redirect($CFG->wwwroot . '/local/organization/advisors.php?instance_id=' . $data->instance_id . '&user_context=' . $data->user_context);
+        redirect($CFG->wwwroot . '/local/organization/advisors.php?unit_id=' . $data->unit_id . '&instance_id=' . $data->instance_id . '&user_context=' . $data->user_context . '&campus_id=' . $data->campus_id);
     }
 } else {
     // Set form data
     $mform->set_data($formdata);
 }
-debug_to_console('no redirect');
-// Set page parameters
 
+// Set page parameters
 base::page(
     new moodle_url('/local/organization/advisors.php'),
     $page_title,
@@ -86,9 +91,7 @@ base::page(
 
 // Output header
 echo $OUTPUT->header();
-
 // Display form
 $mform->display();
-
 // Output footer
 echo $OUTPUT->footer();

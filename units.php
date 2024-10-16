@@ -2,6 +2,7 @@
 require_once('../../config.php');
 include_once('classes/tables/unit_table.php');
 include_once('classes/forms/unit_filter_form.php');
+include_once('classes/helper.php');
 
 use local_organization\base;
 use local_organization\unit_table;
@@ -13,8 +14,6 @@ global $CFG, $OUTPUT, $PAGE, $DB;
 require_login(1, false);
 
 $context = context_system::instance();
-// UNIT CONTEXT for advisors
-const CONTEXT_UNIT = 'UNIT';
 // Load AMD module
 $PAGE->requires->js_call_amd('local_organization/units', 'init');
 // Load CSS file
@@ -32,9 +31,10 @@ $mform = new unit_filter_form(null, array('formdata' => $formdata));
 if ($mform->is_cancelled()) {
     // Handle form cancel operation, if cancel button is present
     redirect($CFG->wwwroot . '/local/organization/units.php?campus_id=' . $campus_id);
-} else if ($data = $mform->get_data()) {
+} else if ($data = $mform->get_data()) { // form is submitted with filter
     // Process validated data
     $term_filter = $data->q;
+    $campus_id = $data->campus_id;
 } else {
     // Display the form
 //    $mform->display();
@@ -43,11 +43,11 @@ if ($mform->is_cancelled()) {
 $table = new unit_table('local_organization_units_table');
 $params = array();
 // Define the SQL query to fetch data
+//retrieve campus id from form data when submit
 $sql = "campus_id = $campus_id";
 if (!empty($term_filter)) {
-    $sql .= " AND (name LIKE '%$term_filter%') OR (shortname LIKE '%$term_filter%')";
+    $sql .= " AND ((LOWER(name) LIKE '%$term_filter%') OR (LOWER(shortname) LIKE '%$term_filter%'))";
 }
-
 // Define the SQL query to fetch data
 $table->set_sql('*', '{local_organization_unit}', $sql);
 

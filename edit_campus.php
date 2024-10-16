@@ -50,7 +50,6 @@ if ($mform->is_cancelled()) {
         $data->timecreated = time();
         $CAMPUS->insert_record($data);
     }
-
     redirect($CFG->wwwroot . '/local/organization/campuses.php');
 } else {
     // Set form data

@@ -32,10 +32,10 @@ if ($id != 0) {
     $formdata = new \stdClass();
     $formdata->id = 0;
 }
-// adding campus id so we'll know
+// adding campus id so we'll know how to get back etc
 $formdata->campus_id = $campus_id;
 $formdata->unit_id = $unit_id;
-echo("<script>console.log('before going in form: " . $formdata->unit_id . "');</script>");
+
 // Create form
 $mform = new \local_organization\department_form(null, array('formdata' => $formdata));
 unset($DEPARTMENT);

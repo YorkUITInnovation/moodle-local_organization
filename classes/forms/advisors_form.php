@@ -48,6 +48,25 @@ class advisors_form extends \moodleform
             PARAM_TEXT
         );
 
+        // Add hidden element for user_context
+        $mform->addElement(
+            'hidden',
+            'campus_id'
+        );
+        $mform->setType(
+            'campus_id',
+            PARAM_INT
+        );
+        // Add hidden element for user_context
+        $mform->addElement(
+            'hidden',
+            'unit_id'
+        );
+        $mform->setType(
+            'unit_id',
+            PARAM_INT
+        );
+
         // Get all users
         // Set value for multiple users based on whether the record has id != 0
         if ($formdata->id != 0) {

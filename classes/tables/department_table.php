@@ -4,16 +4,19 @@ namespace local_organization;
 
 require_once('../../config.php');
 require_once($CFG->libdir . '/tablelib.php');
+require_once('classes/helper.php');
+require_once($CFG->libdir . "/externallib.php");
 
 use local_organization\base;
 
 class department_table extends \table_sql
 {
+    protected $campus_id; // passed to table since we dont get it table sql
     /**
-     * campus_table constructor.
+     * department_table constructor.
      * @param $uniqueid
      */
-    public function __construct($uniqueid)
+    public function __construct($uniqueid, $params)
     {
         parent::__construct($uniqueid);
 
@@ -27,7 +30,7 @@ class department_table extends \table_sql
             get_string('short_name', 'local_organization'),
             '',
         );
-
+        $this->campus_id = $params->campus_id;
         $this->define_headers($headers);
     }
 
@@ -39,16 +42,24 @@ class department_table extends \table_sql
      */
     public function col_actions($values)
     {
-        global $OUTPUT, $CFG, $DB;
+        global $OUTPUT, $CFG, $DB, $USER;
+        // Get count for button
         $advisor_count = $DB->count_records('local_organization_advisor', array('instance_id' => $values->id, 'user_context' => base::CONTEXT_DEPARTMENT));
+        // Capabilities
+        $showEditButtons = false;
+        $system_context = \context_system::instance();
+        if (has_capability('local/organization:unit_edit', $system_context, $USER->id)) {
+            $showEditButtons = true;
+        }
         $actions = [
-            'edit_url' => $CFG->wwwroot . '/local/organization/edit_department.php?id=' . $values->id . '&unit_id=' . $values->unit_id,
+            'edit_url' => $CFG->wwwroot . '/local/organization/edit_department.php?id=' . $values->id . '&unit_id=' . $values->unit_id. '&campus_id=' . $this->campus_id,
             'id' => $values->id,
             'advisor_count' => $advisor_count,
             'user_context' => base::CONTEXT_DEPARTMENT,
-            'unit_id' => $values->unit_id
+            'unit_id' => $values->unit_id,
+            'campus_id' => $this->campus_id,
+            'showEditButtons' => $showEditButtons
         ];
-
         return $OUTPUT->render_from_template('local_organization/department_table_action_buttons', $actions);
     }
 }

@@ -13,7 +13,6 @@ class department_form extends \moodleform
 
     protected function definition()
     {
-
         $formdata = $this->_customdata['formdata'];
 
         // Create form object
@@ -105,7 +104,6 @@ class department_form extends \moodleform
             'id_number', PARAM_TEXT
         );
 
-
         $this->add_action_buttons();
         $this->set_data($formdata);
     }
@@ -114,10 +112,7 @@ class department_form extends \moodleform
     public function validation($data, $files)
     {
         global $DB;
-
         $errors = parent::validation($data, $files);
-
-
         return $errors;
     }
 

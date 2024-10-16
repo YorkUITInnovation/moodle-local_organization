@@ -9,9 +9,20 @@ class unit_filter_form extends moodleform
 {
     public function definition()
     {
-
         $formdata = $this->_customdata['formdata'];
         $mform = $this->_form;
+
+
+        $context = \context_system::instance();
+        // created to return campus_id when submitting/reset/filter
+        $mform->addElement(
+            'hidden',
+            'campus_id'
+        );
+        $mform->setType(
+            'campus_id',
+            PARAM_INT
+        );
 
         // Group the text input and submit button
         $mform->addGroup(array(
@@ -23,7 +34,8 @@ class unit_filter_form extends moodleform
             $mform->createElement(
                 'submit',
                 'submitbutton',
-                get_string('filter', 'local_organization')
+                get_string('filter', 'local_organization'),
+                array('onclick' => 'window.location.href = \'edit_unit.php?campus_id=' . $formdata->campus_id . '\';')
             ),
             $mform->createElement(
                 'cancel',

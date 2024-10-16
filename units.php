@@ -2,7 +2,6 @@
 require_once('../../config.php');
 include_once('classes/tables/unit_table.php');
 include_once('classes/forms/unit_filter_form.php');
-include_once('classes/helper.php');
 
 use local_organization\base;
 use local_organization\unit_table;

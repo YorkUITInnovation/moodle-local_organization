@@ -2,7 +2,6 @@
 require_once('../../config.php');
 include_once('classes/tables/advisors_table.php');
 include_once('classes/forms/advisors_filter_form.php');
-include_once('classes/helper.php');
 
 
 use local_organization\advisors_filter_form;

@@ -28,8 +28,9 @@ class department_table extends \table_sql
         $headers = array(
             get_string('name', 'local_organization'),
             get_string('short_name', 'local_organization'),
-            '',
+            ''
         );
+        // campus_id doesn't come from the sql in the table so have get it from elsewhere/prev pages
         $this->campus_id = $params->campus_id;
         $this->define_headers($headers);
     }

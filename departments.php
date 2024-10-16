@@ -2,7 +2,6 @@
 require_once('../../config.php');
 include_once('classes/tables/department_table.php');
 include_once('classes/forms/department_filter_form.php');
-include_once('classes/helper.php');
 
 use local_organization\base;
 use local_organization\department_table;

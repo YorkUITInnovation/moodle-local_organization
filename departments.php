@@ -2,7 +2,6 @@
 require_once('../../config.php');
 include_once('classes/tables/department_table.php');
 include_once('classes/forms/department_filter_form.php');
-include_once('classes/helper.php');
 
 use local_organization\base;
 use local_organization\department_table;
@@ -37,27 +36,30 @@ if ($mform->is_cancelled()) {
     // Handle form cancel operation, if cancel button is present
     redirect($CFG->wwwroot . '/local/organization/departments.php?unit_id= '.$unit_id. '&campus_id='.$campus_id);
 
-} else if ($data = $mform->get_data()) {
+} else if ($data = $mform->get_data()) { // on submit and reset/refresh of the button group form
     // Process validated data
     $term_filter = $data->q;
+    $campus_id = $data->campus_id;
+    $unit_id = $data->unit_id;
 } else {
     // Display the form
 //    $mform->display();
 }
 
+$params = array();
 $table = new department_table('local_organization_departments_table', $formdata);
 
 // Define the SQL query to fetch data
 $sql = "unit_id = $unit_id";
 if (!empty($term_filter)) {
-    $sql .= " AND (name LIKE '%$term_filter%') OR (shortname LIKE '%$term_filter%')";
+    $sql .= " AND (LOWER(name) LIKE '%$term_filter%') OR (LOWER(shortname) LIKE '%$term_filter%')";
 }
 
 // Define the SQL query to fetch data
 $table->set_sql('*', '{local_organization_dept}', $sql);
 
 // Define the base URL for the table
-$table->define_baseurl(new moodle_url('/local/organization/departments.php?unit_id= '.$unit_id));
+$table->define_baseurl(new moodle_url('/local/organization/departments.php'));
 
 base::page(
     new moodle_url('/local/organization/departments.php'),

@@ -2,7 +2,6 @@
 require_once('../../config.php');
 include_once('classes/tables/advisors_table.php');
 include_once('classes/forms/advisors_filter_form.php');
-include_once('classes/helper.php');
 
 
 use local_organization\advisors_filter_form;
@@ -32,23 +31,22 @@ $formdata->user_context = $user_context;
 $formdata->unit_id = $unit_id;
 $formdata->campus_id = $campus_id;
 
-
 $mform = new advisors_filter_form(null, array('formdata' => $formdata));
 
 if ($mform->is_cancelled()) {
-    // Handle form cancel operation, if cancel button is present
-    // check if UNIT or DEPARTMENT and go to that page
-
     if ($user_context == base::CONTEXT_UNIT) {
-        redirect($CFG->wwwroot .'/local/organization/units.php?campus_id=' . $formdata->campus_id);
+        // redirect($CFG->wwwroot .'/local/organization/units.php?campus_id=' . $formdata->campus_id);
     }
     else {
-        redirect($CFG->wwwroot . '/local/organization/departments.php?campus_id=' . $formdata->campus_id . '&unit_id='. $formdata->unit_id);
+        // redirect($CFG->wwwroot . '/local/organization/departments.php?campus_id=' . $formdata->campus_id . '&unit_id='. $formdata->unit_id);
     }
-
 } else if ($data = $mform->get_data()) {
     // Process validated data
     $term_filter = $data->q;
+    $instance_id = $data->instance_id;
+    $user_context = $data->user_context;
+    $unit_id = $data->unit_id;
+    $campus_id = $data->campus_id;
 } else {
     // Display the form
     // $mform->display();
@@ -69,18 +67,18 @@ if (!empty($instance_id) && !empty($user_context)) {
             a.user_context as user_context";
     $from = '{user} u JOIN {local_organization_advisor} a ON u.id = a.user_id
             JOIN {role} r ON r.id = a.role_id';
-    if ($user_context == 'UNIT') {
+    if ($user_context == base::CONTEXT_UNIT) {
         $from .= ' JOIN {local_organization_unit} un ON un.id = a.instance_id';
         $conditions = "a.user_context = 'UNIT' and a.instance_id = " . $instance_id;
     } else {
         $from .= ' JOIN {local_organization_dept} un ON un.id = a.instance_id';
         $conditions = "a.user_context = 'DEPARTMENT' and a.instance_id = " . $instance_id;
     }
-
-    //TODO: Parameterize this $id
+    //TODO: Parameterize this
+    if (!empty($term_filter)) {
+        $conditions .= " AND (u.firstname LIKE '%$term_filter%') OR (u.lastname LIKE '%$term_filter%')";
+    }
     $table->set_sql($fields, $from, $conditions);
-} else {
-    $table->set_sql("*", "{local_organization_advisor}", $sql);
 }
 
 // Define the base URL for the table

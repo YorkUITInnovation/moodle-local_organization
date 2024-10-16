@@ -31,17 +31,17 @@ $formdata->user_context = USER_CONTEXT;
 $formdata->campus_id = $campus_id;
 $formdata->unit_id = $unit_id;
 
-debug_to_console($formdata);
-
 $mform = new department_filter_form(null, array('formdata' => $formdata));
 
 if ($mform->is_cancelled()) {
     // Handle form cancel operation, if cancel button is present
     redirect($CFG->wwwroot . '/local/organization/departments.php?unit_id= '.$unit_id. '&campus_id='.$campus_id);
 
-} else if ($data = $mform->get_data()) {
+} else if ($data = $mform->get_data()) { // on submit and reset/refresh of the button group form
     // Process validated data
     $term_filter = $data->q;
+    $campus_id = $data->campus_id;
+    $unit_id = $data->unit_id;
 } else {
     // Display the form
 //    $mform->display();
@@ -53,7 +53,7 @@ $table = new department_table('local_organization_departments_table', $formdata)
 // Define the SQL query to fetch data
 $sql = "unit_id = $unit_id";
 if (!empty($term_filter)) {
-    $sql .= " AND (name LIKE '%$term_filter%') OR (shortname LIKE '%$term_filter%')";
+    $sql .= " AND (LOWER(name) LIKE '%$term_filter%') OR (LOWER(shortname) LIKE '%$term_filter%')";
 }
 
 // Define the SQL query to fetch data

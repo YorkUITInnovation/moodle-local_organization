@@ -44,7 +44,10 @@ if ($mform->is_cancelled()) {
 } else if ($data = $mform->get_data()) {
     // Process validated data
     $term_filter = $data->q;
-    debug_to_console($term_filter);
+    $instance_id = $data->instance_id;
+    $user_context = $data->user_context;
+    $unit_id = $data->unit_id;
+    $campus_id = $data->campus_id;
 } else {
     // Display the form
     // $mform->display();
@@ -65,7 +68,7 @@ if (!empty($instance_id) && !empty($user_context)) {
             a.user_context as user_context";
     $from = '{user} u JOIN {local_organization_advisor} a ON u.id = a.user_id
             JOIN {role} r ON r.id = a.role_id';
-    if ($user_context == 'UNIT') {
+    if ($user_context == base::CONTEXT_UNIT) {
         $from .= ' JOIN {local_organization_unit} un ON un.id = a.instance_id';
         $conditions = "a.user_context = 'UNIT' and a.instance_id = " . $instance_id;
     } else {

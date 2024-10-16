@@ -13,6 +13,26 @@ class department_filter_form extends moodleform
         $formdata = $this->_customdata['formdata'];
         $mform = $this->_form;
 
+        // created to return campus_id when submitting/reset/filter
+        $mform->addElement(
+            'hidden',
+            'campus_id'
+        );
+        $mform->setType(
+            'campus_id',
+            PARAM_INT
+        );
+        // created to return campus_id when submitting/reset/filter
+        $mform->addElement(
+            'hidden',
+            'unit_id'
+        );
+        $mform->setType(
+            'unit_id',
+            PARAM_INT
+        );
+
+
         // Group the text input and submit button
         $mform->addGroup(array(
             $mform->createElement(

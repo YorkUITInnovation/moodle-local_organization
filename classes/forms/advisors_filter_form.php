@@ -18,8 +18,43 @@ class advisors_filter_form extends \moodleform
         // Define no submit button
 //        $mform->registerNoSubmitButton('resetbutton');
 
+        // created to return campus_id when submitting/reset/filter
+        $mform->addElement(
+            'hidden',
+            'campus_id'
+        );
+        $mform->setType(
+            'campus_id',
+            PARAM_INT
+        );
+        // created to return campus_id when submitting/reset/filter
+        $mform->addElement(
+            'hidden',
+            'instance_id'
+        );
+        $mform->setType(
+            'instance_id',
+            PARAM_INT
+        );
+        $mform->addElement(
+            'hidden',
+            'unit_id'
+        );
+        $mform->setType(
+            'unit_id',
+            PARAM_INT
+        );
+        $mform->addElement(
+            'hidden',
+            'user_context'
+        );
+        $mform->setType(
+            'user_context',
+            PARAM_TEXT
+        );
+
         // Based on user context, add a button to return to the proper context
-        if ($formdata->user_context == 'UNIT') {
+        if ($formdata->user_context == base::CONTEXT_UNIT) {
            $return_button = $mform->createElement(
                 'button',
                 'returnbutton',

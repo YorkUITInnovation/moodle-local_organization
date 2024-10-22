@@ -300,7 +300,7 @@ class base
      * @param int $role_id
      * @param int $userid
      * @param int $instance_id
-     * @param string $user_context
+     * @param string $user_context UNIT or DEPARTMENT or BOTH
      * @return bool
      */
     public static function has_role($context, $role_id, $userid = null, $instance_id = 0, $user_context = 'BOTH')

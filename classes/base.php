@@ -286,7 +286,7 @@ class base
                 }
                 return false;
             } else {
-                if ($has_access = $DB->get_record_sql("select * from {local_organization_advisor} loa left join {role_capabilities} mrc on loa.role_id=mrc.roleid where mrc.capability=? and loa.user_id = ? and loa.instance_id = ? and loa.user_context = ?", [$capability, $userid, $instance_id, $user_context])) {
+                if ($has_access = $DB->get_record_sql("select * from {local_organization_advisor} loa left join {role_capabilities} mrc on loa.role_id=mrc.roleid where mrc.capability=? and loa.user_id = ? and loa.instance_id = ? and loa.user_context = ? and mrc.permission = ?", [$capability, $userid, $instance_id, $user_context, 1])) {
                     return true;
                 }
                 return false;

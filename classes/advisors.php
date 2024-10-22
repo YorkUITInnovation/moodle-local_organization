@@ -58,7 +58,21 @@ class advisors
         if (is_null($userid)) {
             $userid = $USER->id;
         }
-        $results = $DB->get_records_sql("SELECT * FROM {local_organization_advisor} WHERE user_id = ?", array($USER->id));
+        $results = $DB->get_records_sql("SELECT * FROM {local_organization_advisor} WHERE user_id = ?", array($userid));
+        return $results;
+    }
+
+    /**
+     * Get user advisor assignments by role
+     *
+     * @return array
+     */
+    public function get_user_advisor_assignments_by_role($userid = null, $roleid) {
+        global $USER, $DB;
+        if (is_null($userid)) {
+            $userid = $USER->id;
+        }
+        $results = $DB->get_records_sql("SELECT * FROM {local_organization_advisor} WHERE user_id = ? and role_id = ?", array($userid, $roleid));
         return $results;
     }
 }

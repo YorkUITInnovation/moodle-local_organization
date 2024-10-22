@@ -256,4 +256,41 @@ class base
         $out = str_replace('%%', '%', $out);
         return $out;
     }
+
+    /**
+     * Check if the user has the capability
+     * @param string $capability
+     * @param \context $context
+     * @param int $userid
+     * @param bool $doanything
+     * @param int $instance_id
+     * @param string $user_context UNIT or DEPARTMENT or BOTH
+     * @return bool
+     */
+    public static function has_capability($capability, $context, $userid = null, $doanything = true, $instance_id = 0, $user_context = 'BOTH')
+    {
+        global $USER, $DB;
+        if (is_null($userid)) {
+            $userid = $USER->id;
+        }
+        // Check if the user has the capability. If not, return false
+        if (!has_capability($capability, $context, $userid, $doanything)) {
+            return false;
+        } else {
+            // If the user has the capability, and the user context equals both
+            if ($user_context == 'BOTH') {
+                $sql = "SELECT * FROM {local_organization_advisor} WHERE user_id = ? AND instance_id = ?";
+                $sql .= " AND (user_context = 'UNIT OR user_context = 'DEPARTMENT')";
+                if ($has_access = $DB->get_records_sql($sql, [$userid, $instance_id])) {
+                    return true;
+                }
+                return false;
+            } else {
+                if ($has_access = $DB->get_record('local_organization_advisor', ['user_id' => $userid, 'instance_id' => $instance_id, 'user_context' => $user_context])) {
+                    return true;
+                }
+                return false;
+            }
+        }
+    }
 }

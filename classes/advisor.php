@@ -10,6 +10,8 @@ namespace local_organization;
 
 use local_organization\base;
 use local_organization\crud;
+use local_organization\advisors;
+
 class advisor extends crud
 {
 
@@ -270,7 +272,6 @@ class advisor extends crud
 
         //Set user
         $data->usermodified = $USER->id;
-
         $id = $DB->insert_record($this->table, $data);
 
         // Now add user to the role
@@ -280,8 +281,43 @@ class advisor extends crud
     }
 
     /**
-     * Delete unit if no departments are using it
+     * Delete advisor and their role in the department or Unit
      */
+    public function delete_advisor_role_record($data)
+    {
+        global $DB, $PAGE;
+        // return parent::delete_record();
+        // get roles based on advisor being deleted
+        $context = \context_system::instance();
+        $role_id = $data->role_id;
+        $user_context = $data->context;
+        $instance_id = $data->instance_id;
+        $user_id = $data->user_id;
+        $ADVISORS = new advisors();
+        // Check for roles and remove as well
+        try {
+            // Attempt to delete the record(s)
+            //$DB->delete_records($this->table, ['id' => $this->id]);
+            // count roles and remove ONLY the last role assignment for a user so they keep their role in the system context
+            $advisor_roles = $ADVISORS->get_user_advisor_assignments_by_role($user_id, $role_id);
+            $count_advisor_roles = count($advisor_roles);
+            $DB->delete_records($this->table, ['id' => $this->id]);
+            if ($count_advisor_roles == 1) {
+                // remove the role at the system level if its the last instance of it for the user
+                role_unassign($role_id, $user_id, $context->id);
+            }
+            return true;
+        } catch (DMLException $e) {
+            // TODO: log errors
+            //print_error(get_string('error_deleting_record', 'moodle'), '', $e->getMessage());
+            return false;
+        } catch (Exception $e) {
+            //print_error(get_string('unexpected_error', 'moodle'), '', $e->getMessage());
+            return false;
+        }
+
+    }
+
     public function delete_record()
     {
         global $DB;

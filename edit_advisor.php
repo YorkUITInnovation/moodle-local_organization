@@ -7,7 +7,6 @@ use local_organization\advisors_form;
 
 global $CFG, $DB, $OUTPUT, $PAGE, $USER;
 
-include_once('classes/helper.php');
 require_once($CFG->dirroot . "/local/organization/classes/forms/advisors_form.php");
 
 require_login(1, false);

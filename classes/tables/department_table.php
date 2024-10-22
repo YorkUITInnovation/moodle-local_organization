@@ -4,7 +4,6 @@ namespace local_organization;
 
 require_once('../../config.php');
 require_once($CFG->libdir . '/tablelib.php');
-require_once('classes/helper.php');
 require_once($CFG->libdir . "/externallib.php");
 
 use local_organization\base;

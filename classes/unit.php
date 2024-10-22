@@ -89,7 +89,6 @@ class unit extends crud
     public function __construct($id = 0)
     {
         global $CFG, $DB, $DB;
-        define('USER_CONTEXT','UNIT');
         $this->table = 'local_organization_unit';
 
         parent::set_table($this->table);
@@ -119,7 +118,7 @@ class unit extends crud
         if ($this->timemodified) {
             $this->timemodified_hr = userdate($result->timemodified,get_string('strftimedate'));
         }
-        $this->user_context = USER_CONTEXT;
+        $this->user_context = base::CONTEXT_UNIT;
     }
 
     /**

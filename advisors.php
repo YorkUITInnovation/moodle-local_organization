@@ -8,7 +8,7 @@ use local_organization\advisors_filter_form;
 use local_organization\base;
 use local_organization\advisors_table;
 
-global $CFG, $OUTPUT, $PAGE, $D, $USER;
+global $CFG, $OUTPUT, $PAGE, $DB, $USER;
 
 
 require_login(1, false);
@@ -64,6 +64,8 @@ if (!empty($instance_id) && !empty($user_context)) {
             u.firstname AS firstname,
             u.lastname AS lastname,
             r.shortname AS role,
+            r.id AS role_id,
+            a.user_id as user_id,
             un.name AS context,
             a.instance_id as instance_id,
             a.user_context as user_context";

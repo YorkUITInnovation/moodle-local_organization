@@ -2,8 +2,11 @@
 
 namespace local_organization;
 
+use local_organization\base;
+
 require_once('../../config.php');
 require_once($CFG->libdir . '/tablelib.php');
+
 
 class advisors_table extends \table_sql
 {
@@ -46,12 +49,16 @@ class advisors_table extends \table_sql
         // Capabilities
         $showEditButtons = false;
         $system_context = \context_system::instance();
+
+        // TODO: change this to Patricks base has_capability
         if (has_capability('local/organization:advisor_edit', $system_context, $USER->id)) {
             $showEditButtons = true;
         }
         $actions = [
             //'edit_url' => new \moodle_url('/local/organization/edit_advisor.php', array('id' => $values->id)),
             'id' => $values->id,
+            'role_id' => $values->role_id,
+            'user_context' => $values->user_context,
             'advisor_count' => $advisor_count,
             'showEditButtons' => $showEditButtons
         ];

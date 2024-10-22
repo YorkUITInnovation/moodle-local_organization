@@ -15,6 +15,8 @@ function deleteAdvisor() {
         button.addEventListener('click', function () {
             // Get the data id attribute value
             var id = this.getAttribute('data-id');
+            var role_id = this.getAttribute('data-role_id');
+            var context = this.getAttribute('data-context');
             var row = this.closest('tr');
             var delete_string = getString('delete', 'local_organization');
             var delete_advisor = getString('delete_advisor', 'local_organization');
@@ -26,7 +28,9 @@ function deleteAdvisor() {
                 var deleteAdvisor = ajax.call([{
                     methodname: 'organization_advisor_delete',
                     args: {
-                        id: id
+                        id: id,
+                        role_id: role_id,
+                        context: context
                     }
                 }]);
                 deleteAdvisor[0].done(function () {

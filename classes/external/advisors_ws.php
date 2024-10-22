@@ -15,7 +15,9 @@ class local_organization_advisors_ws extends external_api
     {
         return new external_function_parameters(
             array(
-                'id' => new external_value(PARAM_INT, 'Advisor ID', false, 0)
+                'id' => new external_value(PARAM_INT, 'Advisor ID', false, 0),
+                'role_id' => new external_value(PARAM_TEXT, 'Role Id', false, ""),
+                'context' => new external_value(PARAM_TEXT, 'User Context', false, "")
             )
         );
     }
@@ -27,23 +29,32 @@ class local_organization_advisors_ws extends external_api
      * @throws invalid_parameter_exception
      * @throws restricted_context_exception
      */
-    public static function delete($id)
+    public static function delete($id, $role, $context)
     {
         global $CFG, $USER, $DB, $PAGE;
 
         //Parameter validation
         $params = self::validate_parameters(self::delete_parameters(), array(
-                'id' => $id
+                'id' => $id,
+                'role_id' => $role,
+                'context' => $context
             )
         );
+        $data= new stdClass();
+        $data->id = $params['id'];
+        $data->role_id = $params['role_id'];
+        $data->context = $params['context'];
 
         //Context validation
         //OPTIONAL but in most web service it should present
         $context = \context_system::instance();
         self::validate_context($context);
         $ADVISOR = new advisor($id);
-        $deleted = $ADVISOR->delete_record();
-
+        // can get user id, instance from $ADVISOR to check roles/capabilities
+        $data->user_id = $ADVISOR->get_user_id();
+        $data->instance_id = $ADVISOR->get_instanceid();
+        // Also Delete role for user
+        $deleted = $ADVISOR->delete_advisor_role_record($data);
         return true;
     }
 

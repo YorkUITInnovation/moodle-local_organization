@@ -280,13 +280,13 @@ class base
             // If the user has the capability, and the user context equals both
             if ($user_context == 'BOTH') {
                 $sql = "SELECT * FROM {local_organization_advisor} WHERE user_id = ? AND instance_id = ?";
-                $sql .= " AND (user_context = 'UNIT OR user_context = 'DEPARTMENT')";
+                $sql .= " AND (user_context = 'UNIT' OR user_context = 'DEPARTMENT')";
                 if ($has_access = $DB->get_records_sql($sql, [$userid, $instance_id])) {
                     return true;
                 }
                 return false;
             } else {
-                if ($has_access = $DB->get_record('local_organization_advisor', ['user_id' => $userid, 'instance_id' => $instance_id, 'user_context' => $user_context])) {
+                if ($has_access = $DB->get_record_sql("select * from {local_organization_advisor} loa left join {role_capabilities} mrc on loa.role_id=mrc.roleid where mrc.capability=? and loa.user_id = ? and loa.instance_id = ? and loa.user_context = ?", [$capability, $userid, $instance_id, $user_context])) {
                     return true;
                 }
                 return false;
@@ -324,7 +324,7 @@ class base
             // If the user has the capability, and the user context equals both
             if ($user_context == 'BOTH') {
                 $sql = "SELECT * FROM {local_organization_advisor} WHERE user_id = ? AND instance_id = ?";
-                $sql .= " AND (user_context = 'UNIT OR user_context = 'DEPARTMENT')";
+                $sql .= " AND (user_context = 'UNIT' OR user_context = 'DEPARTMENT')";
                 if ($has_access = $DB->get_records_sql($sql, [$userid, $instance_id])) {
                     return true;
                 }

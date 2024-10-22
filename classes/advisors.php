@@ -24,7 +24,7 @@ class advisors
     public function __construct()
     {
         global $DB;
-        $this->results = $DB->get_records('local_organization_advisor', null, 'name');
+        $this->results = $DB->get_records('local_organization_advisor');
     }
 
     /**
@@ -48,4 +48,17 @@ class advisors
         return $array;
     }
 
+    /**
+     * Get user advisor assignments
+     *
+     * @return array
+     */
+    public function get_user_advisor_assignments($userid = null) {
+        global $USER, $DB;
+        if (is_null($userid)) {
+            $userid = $USER->id;
+        }
+        $results = $DB->get_records_sql("SELECT * FROM {local_organization_advisor} WHERE user_id = ?", array($USER->id));
+        return $results;
+    }
 }

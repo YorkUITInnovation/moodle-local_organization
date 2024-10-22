@@ -293,4 +293,49 @@ class base
             }
         }
     }
+
+    /**
+     * Check if the user has the role
+     * @param \context $context
+     * @param int $role_id
+     * @param int $userid
+     * @param int $instance_id
+     * @param string $user_context
+     * @return bool
+     */
+    public static function has_role($context, $role_id, $userid = null, $instance_id = 0, $user_context = 'BOTH')
+    {
+        global $USER, $DB;
+
+        if (is_null($userid)) {
+            $userid = $USER->id;
+        }
+        $user_roles = get_user_roles($context, $userid);
+        // loop through the user roles and check if the user has the role
+        $has_role = false;
+        foreach ($user_roles as $role) {
+            if ($role->roleid == $role_id) {
+               $has_role = true;
+               break;
+            }
+        }
+        // If does have the role, check if the user has the capability for this instance based on the user context
+        if ($has_role) {
+            // If the user has the capability, and the user context equals both
+            if ($user_context == 'BOTH') {
+                $sql = "SELECT * FROM {local_organization_advisor} WHERE user_id = ? AND instance_id = ?";
+                $sql .= " AND (user_context = 'UNIT OR user_context = 'DEPARTMENT')";
+                if ($has_access = $DB->get_records_sql($sql, [$userid, $instance_id])) {
+                    return true;
+                }
+                return false;
+            } else {
+                if ($has_access = $DB->get_record('local_organization_advisor', ['user_id' => $userid, 'instance_id' => $instance_id, 'user_context' => $user_context])) {
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
 }

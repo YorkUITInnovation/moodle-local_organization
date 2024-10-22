@@ -17,6 +17,8 @@ if (!has_capability('local/organization:unit_view', $PAGE->context, $USER->id)) 
     redirect($CFG->wwwroot . '/my');
 }
 
+base::has_role($context, 3);
+
 // Load AMD module
 $PAGE->requires->js_call_amd('local_organization/campuses', 'init');
 // Load CSS file

@@ -76,7 +76,9 @@ $string['users'] = 'Users';
 /**
  * Capabilites
  */
-$string['organization:advisor_edit'] = 'Edit, Delete Advisors';
+$string['organization:advisor_edit'] = 'Create/Edit Advisors';
 $string['organization:advisor_view'] = 'View Advisors';
-$string['organization:unit_edit'] = 'Edit, Delete Campuses, Units/Faculties, Departments';
+$string['organization:advisor_delete'] = 'Delete Advisors';
+$string['organization:unit_edit'] = 'Create/Edit Campuses, Units/Faculties, Departments';
 $string['organization:unit_view'] = 'View Campuses, Units/Faculties, Departments';
+$string['organization:unit_delete'] = 'Delete Campuses, Units/Faculties, Departments';

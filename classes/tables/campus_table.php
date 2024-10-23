@@ -7,12 +7,17 @@ use local_organization\base;
 
 class campus_table extends \table_sql
 {
+
+    protected $showEditButtons = false;
+    protected $showDelButtons = false;
+
     /**
      * campus_table constructor.
      * @param $uniqueid
      */
     public function __construct($uniqueid)
     {
+        GLOBAL $USER;
         parent::__construct($uniqueid);
 
         // Define the columns to be displayed
@@ -25,6 +30,14 @@ class campus_table extends \table_sql
             get_string('short_name', 'local_organization'),
             '',
         );
+        //Capabilities
+        $system_context = \context_system::instance();
+        if (has_capability('local/organization:unit_edit', $system_context, $USER->id)) {
+            $this->showEditButtons = true;
+        }
+        if (has_capability('local/organization:unit_delete', $system_context, $USER->id)) {
+            $this->showDelButtons = true;
+        }
 
         $this->define_headers($headers);
     }
@@ -37,21 +50,16 @@ class campus_table extends \table_sql
      */
     public function col_actions($values)
     {
-        global $OUTPUT, $DB, $USER;
+        global $OUTPUT, $DB;
         // Get number of units in the campus
         $unit_count = $DB->count_records('local_organization_unit', array('campus_id' => $values->id));
 
-        //Capabilities
-        $showEditButtons = false;
-        $system_context = \context_system::instance();
-        if (has_capability('local/organization:unit_edit', $system_context, $USER->id)) {
-            $showEditButtons = true;
-        }
         $actions = [
             'edit_url' => new \moodle_url('/local/organization/edit_campus.php', array('id' => $values->id)),
             'id' => $values->id,
             'unit_count' => $unit_count,
-            'showEditButtons' => $showEditButtons
+            'showEditButtons' => $this->showEditButtons,
+            'showDelButtons' => $this->showDelButtons,
         ];
         return $OUTPUT->render_from_template('local_organization/campus_table_action_buttons', $actions);
     }

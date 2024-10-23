@@ -10,12 +10,15 @@ require_once($CFG->libdir . '/tablelib.php');
 
 class advisors_table extends \table_sql
 {
+
+    protected $showDelButtons = false;
     /**
      * advisors_table constructor.
      * @param $uniqueid
      */
     public function __construct($uniqueid)
     {
+        GLOBAL $USER;
         parent::__construct($uniqueid);
 
         // Define the columns to be displayed
@@ -30,6 +33,12 @@ class advisors_table extends \table_sql
             get_string('context', 'local_organization'),
             '',
         );
+
+        //Capabilities
+        $system_context = \context_system::instance();
+        if (has_capability('local/organization:unit_delete', $system_context, $USER->id)) {
+            $this->showDelButtons = true;
+        }
 
         $this->define_headers($headers);
     }
@@ -46,21 +55,13 @@ class advisors_table extends \table_sql
         // Get number of advisors in unt or departments
         $advisor_count = $DB->count_records('local_organization_advisor', ['instance_id' => $values->instance_id, 'user_context' => $values->user_context]);
 
-        // Capabilities
-        $showEditButtons = false;
-        $system_context = \context_system::instance();
-
-        // TODO: change this to Patricks base has_capability
-        if (has_capability('local/organization:advisor_edit', $system_context, $USER->id)) {
-            $showEditButtons = true;
-        }
         $actions = [
             //'edit_url' => new \moodle_url('/local/organization/edit_advisor.php', array('id' => $values->id)),
             'id' => $values->id,
             'role_id' => $values->role_id,
             'user_context' => $values->user_context,
             'advisor_count' => $advisor_count,
-            'showEditButtons' => $showEditButtons
+            'showDelButtons' => $this->showDelButtons
         ];
 
         return $OUTPUT->render_from_template('local_organization/advisors_table_action_buttons', $actions);

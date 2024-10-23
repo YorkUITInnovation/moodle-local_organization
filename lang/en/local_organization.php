@@ -65,6 +65,7 @@ $string['select_user'] = 'Select User';
 $string['short_name'] = 'Abbreviation';
 $string['toomanyresults'] = 'Too many results..';
 $string['pluginname'] = 'Organization';
+$string['manageorg'] = 'Manage Organization';
 $string['reset'] = 'Reset';
 $string['return'] = 'Return';
 $string['role'] = 'Role';

@@ -13,7 +13,11 @@ class local_organization_users_ws extends external_api
      **/
 
     public static function get_users_parameters() {
-        return new external_function_parameters(array('id' => new external_value(PARAM_INT, 'User id', false, -1),'name' => new external_value(PARAM_TEXT, 'User first or last name', false)));
+        return new external_function_parameters(
+            array(
+                'name' => new external_value(PARAM_TEXT, 'User first or last name', false)
+            )
+        );
     }
 
     /** Returns users
@@ -21,9 +25,9 @@ class local_organization_users_ws extends external_api
      * @return string users
      **/
 
-    public static function get_users($id, $name="") {
+    public static function get_users($name="") {
         global $DB;
-        $params = self::validate_parameters(self::get_users_parameters(), array('id' => $id,'name' => $name));
+        $params = self::validate_parameters(self::get_users_parameters(), array('name' => $name));
         if (strlen($name) >= 3) {
             $sql = "select * from {user} u where ";
             $name = str_replace(' ', '%', $name);
@@ -31,14 +35,14 @@ class local_organization_users_ws extends external_api
             //How the ajax call with search via the form autocomplete
             $sql .= " Order by u.lastname";
             //How the ajax call with search via the form autocomplete
-            $mdlUsers = $DB->get_records_sql($sql, array($name));
+            $mdl_users = $DB->get_records_sql($sql, array($name));
         }
         else {
             //            $sql = "select * from {user} Order By lastname"; $mdlUsers = [];
         }
         $users = [];
         $i = 0;
-        foreach ($mdlUsers as $u) {
+        foreach ($mdl_users as $u) {
             $users[$i]['id'] = $u->id;
             $users[$i]['firstname'] = $u->firstname;
             $users[$i]['lastname'] = $u->lastname;
@@ -78,8 +82,7 @@ class local_organization_users_ws extends external_api
     public static function get_roles_parameters() {
         return new external_function_parameters(
             array(
-                'id' => new external_value(PARAM_INT, 'User id', false, -1),
-                'name' => new external_value(PARAM_TEXT, 'User first or last name', false)
+                'name' => new external_value(PARAM_TEXT, 'User first or last name', VALUE_OPTIONAL)
             )
         );
     }
@@ -89,12 +92,11 @@ class local_organization_users_ws extends external_api
      * @return string users
      **/
 
-    public static function get_roles($id, $name="") {
+    public static function get_roles( $name="") {
         global $DB;
         $params = self::validate_parameters(
             self::get_users_parameters(),
             array(
-                'id' => $id,
                 'name' => $name
             )
         );

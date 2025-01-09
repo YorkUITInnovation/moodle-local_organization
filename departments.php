@@ -61,7 +61,7 @@ if (!empty($term_filter)) {
 $table->set_sql('*', '{local_organization_dept}', $sql);
 
 // Define the base URL for the table
-$table->define_baseurl(new moodle_url('/local/organization/departments.php'));
+$table->define_baseurl(new moodle_url('/local/organization/departments.php', ['unit_id' => $unit_id, 'campus_id' => $campus_id]));
 
 base::page(
     new moodle_url('/local/organization/departments.php'),

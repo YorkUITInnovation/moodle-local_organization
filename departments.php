@@ -54,7 +54,7 @@ $table = new department_table('local_organization_departments_table', $formdata)
 // Define the SQL query to fetch data
 $sql = "unit_id = $unit_id";
 if (!empty($term_filter)) {
-    $sql .= " AND (LOWER(name) LIKE '%$term_filter%') OR (LOWER(shortname) LIKE '%$term_filter%')";
+    $sql .= " AND (LOWER(name) LIKE '%$term_filter%') OR (LOWER(shortname) LIKE '%$term_filter%') AND (unit_id = $unit_id)";
 }
 
 // Define the SQL query to fetch data
